@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* 深色政务体系：深蓝黑为底，正文为冷灰白。
+     深色不等于“恐怖黑”——它仍然得看上去像一个有夜间模式的真站：
+     层级靠明度差区分，不靠发光、不靠高对比黑红。 */
+  --color-ink: #d7dfe8;
+  --color-line: #2b3742;
+  --color-soft: #1f2933;
+  --color-surface: #1a232c;
+  --color-paper: #121920;
+  --color-link: #7cb2ea;
+  --color-brand: #84aed9;
+  --color-brand-deep: #0c141d;
+  --color-brand-soft: #22303f;
+  --color-hero: #1b3752;
+  --color-accent: #c99b3f;
+  --color-seal: #a8503f;
+
+  /* Tailwind 默认灰阶是“数字越大越黑”；在深底上那个方向是错的。
+     这里把整条灰阶按**语义角色**重定义，而不是去改两百处 className：
+       300 最弱（面包屑分隔符）→ 800 最亮（正文段落）。
+     因此 text-gray-800 在深底上是接近白的正文色，与它在浅底上曾是近黑的正文色同义。 */
+  --color-gray-300: #333f4c;
+  --color-gray-400: #5f6c7b;
+  --color-gray-500: #7f8c9b;
+  --color-gray-600: #98a4b2;
+  --color-gray-700: #b4bfca;
+  --color-gray-800: #cdd6df;
+}
+
+html,
+body {
+  /* 表单控件、滚动条与默认高亮跟随深色；不写这一行，
+     input[type=search] 的清除按钮与下拉会停在白底上。 */
+  color-scheme: dark;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+}
+
+/* 站内通用面板：卡面比页底亮一档 + 深灰标题栏。
+   首页、词条页、通知栏共用同一套视觉语言。 */
+.panel {
+  border: 1px solid var(--color-line);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.panel-h {
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-soft);
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+}
+
+/* 选中与焦点：全站统一的"被操作"反馈，键盘可达性也在这里兑现。
+   选中色必须在深底上读得清，又不能亮到干扰阅读——它常常是一个
+   “把句子选下来”的动作，而那个动作在本站是有后果的。 */
+::selection {
+  background: #2f4f74;
+  color: #eef4fb;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* 细滚动条：降低系统构件在页面里的存在感 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #384553 transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #384553;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 数字对齐：日期、编号、统计一律等宽数字，档案感的一部分 */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 导览横幅的淡网格与顶光：行政文书的底纹，不是表演 */
+.hero-grid {
+  background-image:
+    radial-gradient(ellipse at 85% -20%, rgba(255, 255, 255, 0.14), transparent 55%),
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size:
+    auto,
+    28px 28px,
+    28px 28px;
+}
+
+/* 全项目仅此一类与"异常"相关，且它做的是排版而非表演 */
+.trunc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
