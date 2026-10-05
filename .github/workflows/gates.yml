@@ -1,0 +1,30 @@
+name: gates
+
+# 机器门在推送时强制执行：本地靠自觉，CI 靠失败。
+# 公开仓库里没有 CI 的门只是装饰——而本项目的门（黄金测试 / 机制测试 /
+# 汇编同步）恰恰是"内容改了但判定没改"这类静默事故的唯一看守。
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: guance-archive
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: guance-archive/package-lock.json
+      - run: npm ci
+      # 不变量与机制断言（含解锁链可达性、锚点保护、检索归一化）
+      - run: npm test
+      # docs/06 汇编与 src/data 权威文本的一致性（docs 在仓库根，checkout 带全）
+      - run: npm run doc:check
+      - run: npx tsc --noEmit
+      - run: npm run lint

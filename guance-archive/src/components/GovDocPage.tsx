@@ -125,19 +125,21 @@ function Receipt() {
 function GovBlock({ block }: { block: ContentBlock }) {
   if (block.type === 'table') {
     return (
-      <table data-bid={block.id} className="ledger-table my-4 w-full border-collapse text-[14px]">
-        <tbody>
-          {(block.rows ?? []).map((row, i) => (
-            <tr key={i}>
-              {row.map((cell, j) => (
-                <td key={j} className="px-3 py-2 align-top text-gray-700">
-                  {cell}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div data-bid={block.id} className="overflow-x-auto">
+        <table className="ledger-table my-4 w-full border-collapse text-[14px]">
+          <tbody>
+            {(block.rows ?? []).map((row, i) => (
+              <tr key={i}>
+                {row.map((cell, j) => (
+                  <td key={j} className="px-3 py-2 align-top text-gray-700">
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
   if (block.type !== 'paragraph') return null;

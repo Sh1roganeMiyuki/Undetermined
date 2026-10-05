@@ -35,6 +35,7 @@ import {
   revisionShown,
 } from '@/lib/resolve/reveal';
 import { GATE_ANCHORS } from '@/lib/resolve/gates';
+import { buildSearchDocs, normText, pickSearchPiece, searchDocs } from '@/lib/searchIndex';
 import { migrateTrace, SEEN_CAP, useTrace } from '@/lib/traceStore';
 
 /* ------------------------------------------------------------------ *
@@ -1784,4 +1785,29 @@ test('63. 存档容器：锚点永不被淘汰，migrate 补齐旧存档缺键',
   const same = { seen: { a: 1 }, picked: { g: 'r1' } };
   expect(migrateTrace(same, 1)).toBe(same);
   expect(migrateTrace(undefined, 0)).toMatchObject({ seen: {}, days: [], actions: [] });
+});
+
+test('64. 检索归一化：1207 / 12·07 / 12-07 同命中；摘要仍取原文', () => {
+  const docs = buildSearchDocs();
+  const groups = (q: string) => searchDocs(q, docs).map((d) => d.group);
+
+  // 间隔标点不得改变命中集合：否则玩家会以为站点坏了，
+  // 而“坏掉的工具”与“设计好的异常”是两件事（见 searchIndex 头注释）
+  const plain = groups('1207');
+  expect(plain).toContain('event-1207');
+  expect(groups('12·07')).toEqual(plain);
+  expect(groups('12-07')).toEqual(plain);
+  expect(groups('12 07')).toContain('event-1207');
+
+  // 归一化只发生在匹配层：摘要与标题永远是原文，间隔标点一个不少
+  const doc = docs.find((d) => d.group === 'event-1207')!;
+  const piece = pickSearchPiece(doc, '1207');
+  expect(piece).toBeDefined();
+  expect(normText(piece!.text)).toContain('1207');
+  expect(piece!.text).toMatch(/[·-]/);
+  expect(doc.title).toContain('12·07');
+
+  // 空查询与纯标点查询不命中任何内容
+  expect(searchDocs('', docs)).toEqual([]);
+  expect(searchDocs('· - — 　', docs)).toEqual([]);
 });

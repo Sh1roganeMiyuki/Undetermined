@@ -111,21 +111,26 @@ function Block({ block, slug }: { block: ContentBlock; slug: string }) {
       );
 
     case 'table':
-      // 台账三线表：线越少越像真的台账（样式在 globals.css）
+      // 台账三线表：线越少越像真的台账（样式在 globals.css）。
+      // 外套滚动容器：说明.txt 明邀手机同 Wi-Fi 访问，四列表格在 360px 上
+      // 不该撑破版心。data-bid 挂在容器上而非 table 上——观察目标是
+      // 容器（始终等于栏宽），宽表横向溢出时视口停留门槛不会被卡死。
       return (
-        <table data-bid={block.id} className="ledger-table my-4 w-full border-collapse text-[14px]">
-          <tbody>
-            {(block.rows ?? []).map((row, i) => (
-              <tr key={i}>
-                {row.map((cell, j) => (
-                  <td key={j} className="px-3 py-2 align-top text-gray-700">
-                    {cell}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div data-bid={block.id} className="overflow-x-auto">
+          <table className="ledger-table my-4 w-full border-collapse text-[14px]">
+            <tbody>
+              {(block.rows ?? []).map((row, i) => (
+                <tr key={i}>
+                  {row.map((cell, j) => (
+                    <td key={j} className="px-3 py-2 align-top text-gray-700">
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       );
 
     case 'image':

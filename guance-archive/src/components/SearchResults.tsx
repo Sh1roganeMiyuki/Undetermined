@@ -3,147 +3,31 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { CATEGORY_LABEL, ENTRIES, getEntry, VERIFY_DOCS, VERIFY_SLUGS } from '@/data/entries';
+import { getEntry, VERIFY_DOCS } from '@/data/entries';
 import type { RevealRule } from '@/types';
 import { dupRecordsFor } from '@/lib/resolve/duplicates';
 import { meetsRule } from '@/lib/resolve/reveal';
 import { useRevealState } from '@/lib/resolve/useRevealState';
 import { staleOr } from '@/lib/resolve/snapshots';
+import {
+  buildSearchDocs,
+  pickSearchPiece,
+  searchDocs,
+  type SearchDoc,
+} from '@/lib/searchIndex';
 import { useTrace } from '@/lib/traceStore';
 import { useHydrated } from '@/lib/useHydrated';
 import { SearchBar } from '@/components/SearchBar';
 
-/** 检索时可选作摘要的段落。摘要取文一律经 staleOr。 */
-interface Piece {
-  id: string;
-  text: string;
-}
-
-interface Doc {
-  key: string;
-  /**
-   * 去重单位。同一个对象只出现一次：
-   * "北环路"命中条目也命中它的复核文书，但结果里只留下条目。
-   * 复核文书因此没有入口——除非查询本身指向它（"北环路 复核"）。
-   */
-  group: string;
-  kind: 'entry' | 'verify';
-  href: string;
-  title: string;
-  meta: string;
-  body: string;
-  pieces: Piece[];
-}
-
-function piecesOf(text?: string, items?: string[]): string {
-  return text ?? (items ?? []).join('；');
-}
-
-function buildDocs(): Doc[] {
-  const out: Doc[] = [];
-
-  for (const e of ENTRIES) {
-    const pieces: Piece[] = e.blocks
-      .map((b) => ({ id: b.id, text: piecesOf(b.text, b.items) }))
-      .filter((p) => p.text.length > 0);
-    out.push({
-      key: `entry:${e.slug}`,
-      group: e.slug,
-      kind: 'entry',
-      href: `/entry/${e.slug}/`,
-      title: e.title,
-      meta: `${CATEGORY_LABEL[e.category]}条目`,
-      body: pieces.map((p) => p.text).join('\n'),
-      pieces,
-    });
-  }
-
-  for (const slug of VERIFY_SLUGS) {
-    const d = VERIFY_DOCS[slug];
-    const pieces: Piece[] = [{ id: d.excerpt.id, text: d.excerpt.text ?? '' }];
-    out.push({
-      key: `verify:${slug}`,
-      group: slug,
-      kind: 'verify',
-      href: `/verify/${slug}/`,
-      title: `复核记录 · ${d.target}`,
-      meta: `系统文书 · ${d.at}`,
-      body: [d.target, d.conclusion, d.footer, d.excerpt.text ?? ''].join('\n'),
-      pieces,
-    });
-  }
-
-  return out;
-}
-
-const DOCS = buildDocs();
-
-function count(hay: string, needle: string): number {
-  if (!needle) return 0;
-  let n = 0;
-  let i = hay.indexOf(needle);
-  while (i >= 0) {
-    n++;
-    i = hay.indexOf(needle, i + needle.length);
-  }
-  return n;
-}
+/** 索引在模块加载时建一次：全站文本是构建期常量，没有理由每次查询重建。 */
+const DOCS = buildSearchDocs();
 
 function clip(s: string, n = 110): string {
   return s.length > n ? `${s.slice(0, n)}…` : s;
 }
 
-interface Hit {
-  doc: Doc;
-  score: number;
-}
-
-function search(q: string): Hit[] {
-  const tokens = q.split(/\s+/).filter(Boolean);
-  if (tokens.length === 0) return [];
-
-  const hits: Hit[] = [];
-  for (const doc of DOCS) {
-    let score = 0;
-    let ok = true;
-    for (const t of tokens) {
-      // 标题命中计分更高，正文命中按出现次数计
-      const c = count(doc.title, t) * 2 + count(doc.body, t);
-      if (c === 0) {
-        ok = false;
-        break;
-      }
-      score += c;
-    }
-    if (ok) hits.push({ doc, score });
-  }
-
-  // 同一 group 只留分最高的一条；同分时条目优先于其复核文书
-  const byGroup = new Map<string, Hit>();
-  for (const h of hits) {
-    const prev = byGroup.get(h.doc.group);
-    if (
-      !prev ||
-      h.score > prev.score ||
-      (h.score === prev.score && h.doc.kind === 'entry')
-    ) {
-      byGroup.set(h.doc.group, h);
-    }
-  }
-  return [...byGroup.values()].sort((a, b) => b.score - a.score);
-}
-
-/** 摘要段落：优先含检索词的那一段，其次第一段。 */
-function pickPiece(doc: Doc, tokens: string[]): Piece | undefined {
-  for (const t of tokens) {
-    const hit = doc.pieces.find((p) => p.text.includes(t));
-    if (hit) return hit;
-  }
-  return doc.pieces[0];
-}
-
 /** 一条结果的投放声明：词条取自己的，系统文书（对照物）取自己的。 */
-function gateOf(doc: Doc): RevealRule | undefined {
+function gateOf(doc: SearchDoc): RevealRule | undefined {
   return doc.kind === 'entry'
     ? getEntry(doc.group)?.reveal
     : VERIFY_DOCS[doc.group]?.reveal;
@@ -161,15 +45,14 @@ export function SearchResults() {
     useTrace.getState().log('search', q);
   }, [q]);
 
-  const tokens = q.split(/\s+/).filter(Boolean);
   // 投放过滤：未满足投放条件的一律不进结果——与目录、首页一个口径。
   // 系统文书（对照物）同样受门管：门未开时它不在检索里存在，
   // 否则第一天搜“复核”就能把对照物主动调出来（`04 §八` 禁止）。
   // 页面本身照常静态生成：投放只控制露出渠道，不控制存在。
   const hydrated = useHydrated();
   const reveal = useRevealState();
-  const hits = search(q).filter((h) => {
-    const rule = gateOf(h.doc);
+  const hits = searchDocs(q, DOCS).filter((doc) => {
+    const rule = gateOf(doc);
     if (!rule) return true; // 无投放声明 = 建站即在，任何时候都可检索
     return hydrated ? meetsRule(rule, reveal) : false;
   });
@@ -206,23 +89,23 @@ export function SearchResults() {
               </p>
             ) : (
               <ul className="mt-2">
-                {hits.map((h) => {
+                {hits.map((doc) => {
                   // 重复条目：命中主对象时，给出两条同名同链接、编号不同的记录。
                   // 点过任意一条之后，只剩那一条——系统不认为发生过删除，
                   // 因此不存在任何"已删除"的痕迹可查。判定收在 dupRecordsFor 里。
-                  const dups = h.doc.kind === 'entry' ? dupRecordsFor(h.doc.group, picked) : null;
+                  const dups = doc.kind === 'entry' ? dupRecordsFor(doc.group, picked) : null;
                   if (dups) {
                     return dups.map((r) => (
                       <li
-                        key={`${h.doc.key}:${r.id}`}
+                        key={`${doc.key}:${r.id}`}
                         className="border-b border-line py-4 last:border-b-0"
                       >
                         <Link
-                          href={h.doc.href}
-                          onClick={() => useTrace.getState().pickRecord(h.doc.group, r.id)}
+                          href={doc.href}
+                          onClick={() => useTrace.getState().pickRecord(doc.group, r.id)}
                           className="text-[16px] leading-7 text-link hover:underline"
                         >
-                          {h.doc.title}
+                          {doc.title}
                         </Link>
                         <div className="mt-1 text-[12px] leading-5 text-gray-400">{r.meta}</div>
                         <p className="mt-1 text-[14px] leading-6 text-gray-600">{r.summary}</p>
@@ -230,21 +113,21 @@ export function SearchResults() {
                     ));
                   }
 
-                  const piece = pickPiece(h.doc, tokens);
+                  const piece = pickSearchPiece(doc, q);
                   // 摘录取留存版（staleOr）。它来自 localStorage，服务端那份 HTML 里
                   // 只可能是规范版，而 suppressHydrationWarning 不负责用客户端的值覆盖——
                   // 不用 ref 在首次绘制前写入，摘要就会静默停在规范版上，
                   // "化石只在一处生效"会被玩家当成随机故障。
                   const summary = piece ? clip(staleOr(piece.id, piece.text)) : '';
                   return (
-                    <li key={h.doc.key} className="border-b border-line py-4 last:border-b-0">
+                    <li key={doc.key} className="border-b border-line py-4 last:border-b-0">
                       <Link
-                        href={h.doc.href}
+                        href={doc.href}
                         className="text-[16px] leading-7 text-link hover:underline"
                       >
-                        {h.doc.title}
+                        {doc.title}
                       </Link>
-                      <div className="mt-1 text-[12px] leading-5 text-gray-400">{h.doc.meta}</div>
+                      <div className="mt-1 text-[12px] leading-5 text-gray-400">{doc.meta}</div>
                       {piece ? (
                         <p
                           suppressHydrationWarning
