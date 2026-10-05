@@ -41,16 +41,27 @@ export function StoryPage({
   }, [hydrated, story.id]);
 
   return (
-    <div className="mx-auto max-w-[760px]">
-      <div className="text-[13px] text-gray-500">
-        <Link href={`${config.basePath}/`} className="hover:text-link">
-          {config.label}
-        </Link>
-        <span className="px-1 text-gray-300">/</span>
-        {story.title}
-      </div>
+    <div className={config.minimal ? 'reading' : 'doc-serif mx-auto max-w-[760px]'}>
+      {config.minimal ? null : (
+        <div className="text-[13px] text-gray-500">
+          <Link href={`${config.basePath}/`} className="hover:text-link">
+            {config.label}
+          </Link>
+          <span className="px-1 text-gray-300">/</span>
+          {story.title}
+        </div>
+      )}
 
-      <h1 className="mt-1 text-[24px] font-semibold leading-9 text-ink">{story.title}</h1>
+      <h1
+        className={
+          config.minimal
+            ? // 阅读模式：书名页的排法——居中、加字距、上方留白
+              'mt-2 text-center text-[22px] font-semibold leading-9 tracking-[0.08em] text-ink'
+            : 'mt-1 text-[24px] font-semibold leading-9 text-ink'
+        }
+      >
+        {story.title}
+      </h1>
       {config.minimal ? null : (
         <p className="mt-2 border-b border-line pb-4 text-[13px] leading-6 text-gray-500">
           {config.speakerLabel}：{story.speaker}　｜　{config.timeLabel}：{stamp(story.at)}

@@ -71,7 +71,12 @@ export function EntryPage({ entry }: { entry: WikiEntry }) {
 
   return (
     <div className="flex flex-col gap-8 xl:flex-row">
-      <article className="relative min-w-0 flex-1">
+      {/* 正文走宋体栈：词条是“文件”，不是界面。记录类另加公文缩进。 */}
+      <article
+        className={`doc-serif relative min-w-0 flex-1 ${
+          entry.category === 'record' ? 'doc-indent' : ''
+        }`}
+      >
         {/* 登记章：淡到几乎是纸的一部分。它盖在文字上，就像真的章那样。
             深纸上透明度得比浅纸高一些才留得住那一点印泥色，但仍然不抢正文 */}
         <div

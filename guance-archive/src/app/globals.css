@@ -5,7 +5,7 @@
      深色不等于“恐怖黑”——它仍然得看上去像一个有夜间模式的真站：
      层级靠明度差区分，不靠发光、不靠高对比黑红。 */
   --color-ink: #d7dfe8;
-  --color-line: #2b3742;
+  --color-line: #323e4a;
   --color-soft: #1f2933;
   --color-surface: #1a232c;
   --color-paper: #121920;
@@ -16,6 +16,13 @@
   --color-hero: #1b3752;
   --color-accent: #c99b3f;
   --color-seal: #a8503f;
+
+  /* 文档正文字体：界面是界面，文件是文件。
+     导航/面板/按钮保持无衬线；词条与叙事正文用宋体栈（纸的字体），
+     行政公文用仿宋栈（公文排印惯例）。两套都回落到 serif，
+     没有装这些字体的机器上仍然读作“文件”而不是“应用”。 */
+  --font-doc: 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', SimSun, '宋体', serif;
+  --font-gov: 'STFangsong', FangSong, '仿宋', 'FangSong_GB2312', 'Songti SC', SimSun, serif;
 
   /* Tailwind 默认灰阶是“数字越大越黑”；在深底上那个方向是错的。
      这里把整条灰阶按**语义角色**重定义，而不是去改两百处 className：
@@ -118,4 +125,101 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* 公文首行缩进两字符：只给公文与记录类，且只缩内容块（[data-bid]）——
+   交叉引用行、摘录说明一类的功能性段落不缩，缩了就是错的排印。 */
+.doc-indent p[data-bid] {
+  text-indent: 2em;
+}
+
+/* 两套文档字体的挂载点：词条/叙事/历史页用宋体栈，行政公文用仿宋栈。
+   宋体横画只有约 1 物理像素，在深底上（尤其非 Retina 屏）会显得比实际更细更虚；
+   0.5px 同色描边是笔画补偿，不是发光——它不可被察觉为“效果”，
+   只让横画回到它在纸上的重量。 */
+.doc-serif {
+  font-family: var(--font-doc);
+  text-shadow: 0 0 0.5px currentColor;
+}
+.doc-gov {
+  font-family: var(--font-gov);
+  text-shadow: 0 0 0.5px currentColor;
+}
+
+/* 台账三线表：去掉竖线与逐行横线，只留顶线、栏线、底线。
+   表格在本站是“登记秩序”的视觉化身；线越少，越像真的台账。 */
+.ledger-table {
+  border-top: 2px solid var(--color-gray-500);
+  border-bottom: 2px solid var(--color-gray-500);
+}
+.ledger-table tr:first-child td {
+  border-bottom: 1px solid var(--color-gray-500);
+  font-weight: 600;
+}
+
+/* 阅读模式：小说不该住在 wiki 的卡片里。
+   :has() 让承载卡片退场——边框、卡面、阴影全撤，只留下一栏纸；
+   不支持 :has() 的浏览器会留在卡片里，无碍阅读。 */
+main:has(.reading) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+.reading {
+  max-width: 40em;
+  margin-inline: auto;
+}
+.reading p[data-bid] {
+  font-family: var(--font-doc);
+  font-size: 16px;
+  /* 1.9 而非更松：连续读三千字时，行距过大会让视线在回程时丢行。
+     疏朗感由栏宽与段距承担，不由行距承担。 */
+  line-height: 1.9;
+  text-shadow: 0 0 0.5px currentColor;
+}
+/* 章题（一、二、三）居中加字距：书的排法，不是列表的排法 */
+.reading h2 {
+  font-family: var(--font-doc);
+  text-align: center;
+  letter-spacing: 0.35em;
+  text-indent: 0.35em;
+}
+
+/* 打印：档案本来就该能被打出来。玩家把几份互不印证的记录
+   打印到纸上摊开比对，是这个作品梦寐以求的行为——
+   那么打印件就必须是一份干净的公文，而不是带着导航栏和红点的网页。 */
+.print-only {
+  display: none;
+}
+@media print {
+  header,
+  footer,
+  aside,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  * {
+    color: #000 !important;
+    background: transparent !important;
+    border-color: #aaa !important;
+    box-shadow: none !important;
+  }
+  main {
+    border: none !important;
+  }
+  a {
+    text-decoration: none !important;
+  }
+  .print-only {
+    display: block !important;
+    margin-top: 2rem;
+    border-top: 1px solid #aaa;
+    padding-top: 0.5rem;
+    font-size: 12px;
+  }
 }

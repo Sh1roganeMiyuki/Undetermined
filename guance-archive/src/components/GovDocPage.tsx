@@ -34,8 +34,9 @@ export function GovDocPage({ doc }: { doc: GovDoc }) {
   // 进入时的拦截快照：本次到访内不因弹层写入而切换。
   const [entryIntercepted] = useState(() => useTrace.getState().interceptedAt !== null);
 
+  // 公文走仿宋栈 + 首行缩进：行政公文的排印惯例，与协作词条区分开
   return (
-    <div className="mx-auto max-w-[760px]">
+    <div className="doc-gov doc-indent mx-auto max-w-[760px]">
       <div className="text-[13px] text-gray-500">
         <Link href="/gov/" className="hover:text-link">
           城北政务
@@ -124,10 +125,10 @@ function Receipt() {
 function GovBlock({ block }: { block: ContentBlock }) {
   if (block.type === 'table') {
     return (
-      <table data-bid={block.id} className="my-4 w-full border-collapse text-[14px]">
+      <table data-bid={block.id} className="ledger-table my-4 w-full border-collapse text-[14px]">
         <tbody>
           {(block.rows ?? []).map((row, i) => (
-            <tr key={i} className="border-b border-line">
+            <tr key={i}>
               {row.map((cell, j) => (
                 <td key={j} className="px-3 py-2 align-top text-gray-700">
                   {cell}

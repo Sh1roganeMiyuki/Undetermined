@@ -111,11 +111,12 @@ function Block({ block, slug }: { block: ContentBlock; slug: string }) {
       );
 
     case 'table':
+      // 台账三线表：线越少越像真的台账（样式在 globals.css）
       return (
-        <table data-bid={block.id} className="my-4 w-full border-collapse text-[14px]">
+        <table data-bid={block.id} className="ledger-table my-4 w-full border-collapse text-[14px]">
           <tbody>
             {(block.rows ?? []).map((row, i) => (
-              <tr key={i} className="border-b border-line">
+              <tr key={i}>
                 {row.map((cell, j) => (
                   <td key={j} className="px-3 py-2 align-top text-gray-700">
                     {cell}

@@ -32,6 +32,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <WikiSidebar />
           <main className="min-w-0 flex-1 rounded-lg border border-line bg-surface px-8 py-7 shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
             {children}
+            {/* 版记：只在纸面上出现。屏幕上的档案不需要落款，
+                打出来的那一份需要——它从此离开本站，自己承担一切。 */}
+            <p className="print-only">
+              本件打印自城北新区资料协作平台 · 内容以登记时间为准，登记后不再更新 ·
+              如对条目有异议，请在对应词条的编辑历史页提交说明
+            </p>
           </main>
         </div>
         <footer className="mt-4 bg-brand-deep text-white/60">

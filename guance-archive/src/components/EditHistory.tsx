@@ -42,7 +42,7 @@ export function EditHistory({ entry }: { entry: WikiEntry }) {
   }, [hydrated, entry.slug, records.length]);
 
   return (
-    <div className="mx-auto max-w-[760px]">
+    <div className="doc-serif mx-auto max-w-[760px]">
       <div className="flex flex-wrap items-center gap-1 text-[13px] text-gray-500">
         <Link href={`/entry/${entry.slug}/`} className="hover:text-link">
           {entry.title}
@@ -79,24 +79,39 @@ export function EditHistory({ entry }: { entry: WikiEntry }) {
               )}
             </div>
 
-            {r.blockId ? (
+            {r.overwritten && r.underlyingText && r.blockId ? (
+              /*
+               * 覆盖型登记：两版并排，不加任何高亮。
+               * 差异由眼睛自己完成——高亮会替玩家怀疑，而“自己看出来的”
+               * 才是这个项目唯一有效的恐怖。原先的折叠（details）则相反：
+               * 它把证据藏进一次点击里，而多数人永远不会点那一下。
+               */
+              <div className="mt-2 grid gap-3 sm:grid-cols-2">
+                <div>
+                  <p className="font-sans text-[12px] text-gray-400">登记后（现行）</p>
+                  <p
+                    data-bid={r.blockId}
+                    className="mt-1 border-l-2 border-line bg-soft px-3 py-2 text-[14px] leading-6 text-gray-700"
+                  >
+                    {hydrated ? staleOr(r.blockId, blockText(r.blockId)) : blockText(r.blockId)}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-sans text-[12px] text-gray-400">被覆盖的底层版本</p>
+                  {/* 两栏必须同色同重：任何明度差都会被读成“哪一份更生效”，
+                      而这一页的全部力量在于两份都不解释自己。 */}
+                  <p className="mt-1 border-l-2 border-line bg-soft px-3 py-2 text-[14px] leading-6 text-gray-700">
+                    {r.underlyingText}
+                  </p>
+                </div>
+              </div>
+            ) : r.blockId ? (
               <p
                 data-bid={r.blockId}
                 className="mt-2 rounded-r-md border-l-2 border-line bg-soft px-3 py-2 text-[14px] leading-6 text-gray-600"
               >
                 {hydrated ? staleOr(r.blockId, blockText(r.blockId)) : blockText(r.blockId)}
               </p>
-            ) : null}
-
-            {r.overwritten && r.underlyingText ? (
-              <details className="mt-2">
-                <summary className="cursor-pointer text-[13px] text-gray-500 hover:text-link">
-                  展开被覆盖的版本
-                </summary>
-                <p className="mt-2 bg-soft px-3 py-2 text-[14px] leading-6 text-gray-700">
-                  {r.underlyingText}
-                </p>
-              </details>
             ) : null}
           </li>
         ))}

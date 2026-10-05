@@ -89,7 +89,7 @@ function count(hay: string, needle: string): number {
   return n;
 }
 
-function clip(s: string, n = 72): string {
+function clip(s: string, n = 110): string {
   return s.length > n ? `${s.slice(0, n)}…` : s;
 }
 
