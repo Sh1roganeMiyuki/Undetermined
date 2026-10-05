@@ -385,10 +385,11 @@ test('23. 城北口述：与 wiki 的互锁（读记录解锁口述、读口述�
 });
 
 test('24. 外部材料存档：投放链与结构完整性（同一事件多载体互证）', () => {
-  // 榜单三期，每期 10 条，名次连续
+  // 榜单三期，名次连续；11·06 期 11 条（含徐公巷征集那条地名回声），其余各 10 条
   expect(HOT_SNAPSHOTS.map((s) => s.id)).toEqual(['hot-1031', 'hot-1106', 'hot-1112']);
+  const COUNT: Record<string, number> = { 'hot-1031': 10, 'hot-1106': 11, 'hot-1112': 10 };
   for (const s of HOT_SNAPSHOTS) {
-    expect(s.topics).toHaveLength(10);
+    expect(s.topics).toHaveLength(COUNT[s.id]);
     s.topics.forEach((t, i) => expect(t.rank).toBe(i + 1));
   }
 
@@ -410,6 +411,7 @@ test('24. 外部材料存档：投放链与结构完整性（同一事件多载�
     'net-1105',
     'net-1106',
     'net-1107',
+    'net-1107-2',
     'net-1108',
     'net-1109',
     'net-1110',
@@ -1810,4 +1812,38 @@ test('64. 检索归一化：1207 / 12·07 / 12-07 同命中；摘要仍取原文
   // 空查询与纯标点查询不命中任何内容
   expect(searchDocs('', docs)).toEqual([]);
   expect(searchDocs('· - — 　', docs)).toEqual([]);
+});
+
+test('65. 徐公巷：用典不被世界觉察——地名多于一个载体，解释零条', () => {
+  // 地名回声：热搜与群聊各自提到徐公巷，互不引用，谁也不觉得它好笑
+  const hot = HOT_SNAPSHOTS.find((s) => s.id === 'hot-1106')!;
+  const topic = hot.topics.find((x) => x.topic.includes('徐公巷'))!;
+  expect(topic.posts?.some((p) => p.includes('灯'))).toBe(true);
+  const net = NET_RECORDS.find((r) => r.id === 'net-1107-2')!;
+  expect(net.lines?.some((l) => l.includes('徐公巷'))).toBe(true);
+
+  // 梗只活一次：全篇仅一处引典故原文
+  const joke = (net.lines ?? []).filter((l) => l.includes('齐国之美丽者也'));
+  expect(joke).toHaveLength(1);
+  // 世界不笑：梗的下一行是“？”，再下一行回到鸡蛋
+  const i = net.lines!.findIndex((l) => l.includes('齐国之美丽者也'));
+  expect(net.lines![i + 1]).toBe('？');
+  expect(net.lines![i + 2]).toContain('鸡蛋');
+  // 缓解拍不是第一天就送：它与 11·06 榜同批，门未开时不在
+  expect(meetsRule(net.reveal, { days: 1, seen: {}, reconstruct: {} })).toBe(false);
+
+  // 解释为零：出处与解说词不得出现在任何载体里——
+  // 用典与玩梗的分界线就是世界有没有觉察自己
+  const corpus = [
+    HOT_SNAPSHOTS,
+    NET_RECORDS,
+    GOV_DOCS,
+    NEWS_ISSUES,
+    ENTRIES,
+    STORIES,
+    CHRONICLES,
+  ]
+    .map((x) => JSON.stringify(x))
+    .join('');
+  for (const w of ['邹忌', '战国策', '讽齐王', '窥镜']) expect(corpus).not.toContain(w);
 });
