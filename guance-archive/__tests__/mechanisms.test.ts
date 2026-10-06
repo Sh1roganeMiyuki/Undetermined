@@ -1847,3 +1847,34 @@ test('65. 徐公巷：用典不被世界觉察——地名多于一个载体，�
     .join('');
   for (const w of ['邹忌', '战国策', '讽齐王', '窥镜']) expect(corpus).not.toContain(w);
 });
+
+test('66. 冷库时间链自洽；2.4 为跨时代同构签名（仅两处，改一即红）', () => {
+  // 停电时刻 22:14 由值班记录/事故报告/现场照片/连载八四处一致钉住；
+  // 温升窗口必须晚于它——EX-08 是“断电后的温升”，不是“断电前的”。
+  const temp = getEntry('record-coldstore-temp')!;
+  const body = temp.blocks.find((b) => b.id === 'coldstore-temp-body')!.text!;
+  expect(body).toContain('22:17 至 22:20');
+  expect(body).not.toContain('22:03');
+  const duty = getEntry('record-coldstore-duty')!;
+  expect(duty.blocks.some((b) => (b.text ?? '').includes('22:14　停电。'))).toBe(true);
+
+  // 同构签名：2.4 的升幅表述全站仅两处——一明（冷库温度记录）一埋（11·29 被覆盖底层）。
+  // 登记在案（07 §6.2）；将来任何人把它当笔误“修正”掉一处，这里就红。
+  const hits: string[] = [];
+  const walk = (v: unknown, id: string): void => {
+    if (typeof v === 'string') {
+      if (v.includes('2.4℃') || v.includes('2.4 摄氏度')) hits.push(id);
+      return;
+    }
+    if (v === null || typeof v !== 'object') return;
+    if (Array.isArray(v)) {
+      for (const x of v) walk(x, id);
+      return;
+    }
+    // 故意不向下继承块 id：这里要的是“哪一件文书”，不是“哪一块”
+    const o = v as Record<string, unknown>;
+    for (const x of Object.values(o)) walk(x, id);
+  };
+  for (const e of ENTRIES) walk(e, e.slug);
+  expect(hits.sort()).toEqual(['event-1129', 'record-coldstore-temp']);
+});
