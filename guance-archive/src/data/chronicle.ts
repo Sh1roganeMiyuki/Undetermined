@@ -3691,7 +3691,183 @@ const chronicle10: Story = {
   ],
 };
 
-export const CHRONICLES: Story[] = [chronicle01, chronicle02, chronicle03, chronicle04, chronicle05, chronicle06, chronicle07, chronicle08, chronicle09, chronicle10];
+/* ------------------------------------------------------------------ *
+ * 终局轨·别卷（07 §2.4）。只在登记最终选择之后到达；写玩家没进过的房间。
+ *
+ * 别卷一·回摆：2018 试机夜，山下变电所。同一夜，隔壁建筑——
+ * 连载七在望城台临建房里记人，这一册在柜前记电流。
+ * 限知纪律：他只看得见表、院子和山顶那一点白；
+ * 他的猜测（表坏）在本册内被校验推翻，第二个猜测他没说出口，
+ * 落笔的是“原因不明”。机制一个字不碰。
+ * ------------------------------------------------------------------ */
+const chronicleX1: Story = {
+  id: 'chronicle-x1',
+  title: '别卷一 · 回摆',
+  speaker: '不详（原稿无落款）',
+  at: '2025-04-07T09:00:00+08:00',
+  reveal: { afterChoice: true },
+  blocks: [
+    { id: 'chronicle-x1-h1', type: 'heading', text: '一' },
+    {
+      id: 'chronicle-x1-p1',
+      type: 'paragraph',
+      text: '老葛在青岚山变电所值了九年夜班。所里编制两个人，一个班两天，轮休的那天下山睡觉。另一个人姓侯，腿不好，走山路要拄一根棍。',
+    },
+    {
+      id: 'chronicle-x1-p2',
+      type: 'paragraph',
+      text: '2018 年十月，侯师傅月底请了假去省城看腿。那半个月，夜里只有老葛一个人。',
+    },
+    {
+      id: 'chronicle-x1-p3',
+      type: 'paragraph',
+      text: '他管十一路出线。前十路供公园：路灯、泵房、东门售票亭、索道旧机房——索道停了六年，机房那路一直空载。第十一路专供山顶：望城台西侧的临建房，仪器、空调、照明。合同上写的容量，比公园里其他十路加起来还大。',
+    },
+    {
+      id: 'chronicle-x1-p4',
+      type: 'paragraph',
+      text: '他抄表抄了九年，没见过哪一路的表走得像第十一路。白天空载，夜里起来，起来得没有规律。他问过山上。山上说，设备在调试。',
+    },
+    { id: 'chronicle-x1-h2', type: 'heading', text: '二' },
+    {
+      id: 'chronicle-x1-p5',
+      type: 'paragraph',
+      text: '试机的前一天下午，两个人开车上山，顺路到所里来打招呼。年纪轻的那个说话，年纪大的站着听。说话的人递给他一张纸：夜里十点开始，负荷会起来，请不要按跳闸处理，时段和容量写在纸上。',
+    },
+    {
+      id: 'chronicle-x1-p6',
+      type: 'paragraph',
+      text: '纸上有落款，是一个公司的名字，他没听过。他把纸贴在值班室墙上，贴在那张索道停用通知的旁边。',
+    },
+    {
+      id: 'chronicle-x1-p7',
+      type: 'paragraph',
+      text: '他问了一句：什么东西要用电用到这个数。说话的人笑了笑，说仪器。站着的人补充了一句：仪器对电的要求高，一点波动都不行。',
+    },
+    {
+      id: 'chronicle-x1-p8',
+      type: 'paragraph',
+      text: '老葛后来想过很多次这个“一点波动都不行”。想的最多的一年，不是 2018 年。',
+    },
+    { id: 'chronicle-x1-h3', type: 'heading', text: '三' },
+    {
+      id: 'chronicle-x1-p9',
+      type: 'paragraph',
+      text: '十点零四分，第十一路的电流上来了。不是慢慢上来，是一格一格上来，像有人在一档一档地加东西。他站在柜前看了一分钟，回值班室拿本子。',
+    },
+    {
+      id: 'chronicle-x1-p10',
+      type: 'paragraph',
+      text: '十点二十六分，指针到了纸上的上限。按规程他该切。他没有切。纸上写了时段，时段没到；切了，山上那两句“一点波动都不行”就落在他头上。',
+    },
+    {
+      id: 'chronicle-x1-p11',
+      type: 'paragraph',
+      text: '十点三十一分，指针过了上限。柜子里没有声音。他后来记得最清楚的就是这个：没有声音。跳闸该有声音，九年里他听过四次，每一次都记得。',
+    },
+    {
+      id: 'chronicle-x1-p12',
+      type: 'paragraph',
+      text: '十点三十四分，指针回摆。不是落回零，是往回摆一格，停住，再往回一格。一格一格，和上来时一样慢。',
+    },
+    {
+      id: 'chronicle-x1-p13',
+      type: 'paragraph',
+      text: '他抄下读数，笔尖把纸戳出一个坑。然后他出去看了一眼前院。',
+    },
+    { id: 'chronicle-x1-h4', type: 'heading', text: '四' },
+    {
+      id: 'chronicle-x1-p14',
+      type: 'paragraph',
+      text: '从院里能望见山顶。九年夜班，他望了九年：临建房建成之前，那个位置黑着；建成之后，夜里有一小片白，是窗里的灯。',
+    },
+    {
+      id: 'chronicle-x1-p15',
+      type: 'paragraph',
+      text: '那晚的白比平时高。高出树线一点，不晃，也不闪。像有人把屋里所有的灯都打开，又把所有的窗都打开。',
+    },
+    {
+      id: 'chronicle-x1-p16',
+      type: 'paragraph',
+      text: '他看了多久不记得。回屋的时候，指针已经落回空载。墙上那张纸还在。他把纸揭下来，折好，夹进本子。',
+    },
+    {
+      id: 'chronicle-x1-p17',
+      type: 'paragraph',
+      text: '他在备注栏写：22:34 回摆。原因不明。写完之后觉得不够，又加了一句：柜未动作。',
+    },
+    { id: 'chronicle-x1-h5', type: 'heading', text: '五' },
+    {
+      id: 'chronicle-x1-p18',
+      type: 'paragraph',
+      text: '第二天他报仪表异常，申请校验。他的第一个说法是表坏了——指针过上限而柜未动作，只能是表把假的读给他看。',
+    },
+    {
+      id: 'chronicle-x1-p19',
+      type: 'paragraph',
+      text: '校验的人三天后来，把表拆下去，换一块上来，又把他那块带走检。一周后答复：表是好的。拆走之前和装回之后，读数一致。',
+    },
+    {
+      id: 'chronicle-x1-p20',
+      type: 'paragraph',
+      text: '表没坏，第一个说法就没了。第二个说法他在心里放了一个月：山上接线松，松到能自己回紧。他没说出来。说出来像编的。',
+    },
+    {
+      id: 'chronicle-x1-p21',
+      type: 'paragraph',
+      text: '十一月第一周，侯师傅销假回来，说起山下另外两个所的同班：同一夜，也记到一次回摆。一个晚他这边约一分钟，一个晚约两分钟。三个人把本子摊在值班室桌上对了一遍。对完没有人说话。',
+    },
+    {
+      id: 'chronicle-x1-p22',
+      type: 'paragraph',
+      text: '老葛在自己那页的备注栏又加了一行：三所同夜。报修未受理。写完之后他把那一页折了一个角。',
+    },
+    { id: 'chronicle-x1-h6', type: 'heading', text: '六' },
+    {
+      id: 'chronicle-x1-p23',
+      type: 'paragraph',
+      text: '十一月五日闭园。通告贴到所里是同一天上午：山体维护，闭园两个月。',
+    },
+    {
+      id: 'chronicle-x1-p24',
+      type: 'paragraph',
+      text: '下午上级来电话，说山顶那路出线停供，所里保留，人不用上山。他问合同。电话里说，合同期满。',
+    },
+    {
+      id: 'chronicle-x1-p25',
+      type: 'paragraph',
+      text: '走之前他把第十一路的柜门打开看了一次。柜里干净，没有烧痕，没有味。他把手伸进去摸了摸母排，是凉的。和他九年里摸过的每一次一样凉。',
+    },
+    {
+      id: 'chronicle-x1-p26',
+      type: 'paragraph',
+      text: '本子他留着。侯师傅的本子也在他这儿——侯师傅后来没再来拿。',
+    },
+    { id: 'chronicle-x1-h7', type: 'heading', text: '七' },
+    {
+      id: 'chronicle-x1-p27',
+      type: 'paragraph',
+      text: '后来有人来找过他一次，问 2018 年十月那夜的抄表记录还在不在。他说在。来人没有要，也没有看，只留了一个电话。他没有打。',
+    },
+    {
+      id: 'chronicle-x1-p28',
+      type: 'paragraph',
+      text: '他至今对人说那是一次设备故障。说的时候他看着对方，看对方信不信。对方信，他就再补一句：三所同夜。补完对方就不信了。',
+    },
+    {
+      id: 'chronicle-x1-p29',
+      type: 'paragraph',
+      text: '他不知道自己为什么要补那一句。想了九年，他想出来的说法是：本子可以只有一个人看，事不能只有一个人知道。',
+    },
+    {
+      id: 'chronicle-x1-p30',
+      type: 'paragraph',
+      text: '山顶现在黑着。他偶尔夜里醒，走到窗前看一眼方向。看不见山，只看见城北那片灯。他说不出那片灯和 2018 年比是多了还是少了。他只看一眼，就回去睡。',
+    },
+  ],
+};
+
+export const CHRONICLES: Story[] = [chronicle01, chronicle02, chronicle03, chronicle04, chronicle05, chronicle06, chronicle07, chronicle08, chronicle09, chronicle10, chronicleX1];
 
 export const CHRONICLE_IDS = CHRONICLES.map((s) => s.id);
 

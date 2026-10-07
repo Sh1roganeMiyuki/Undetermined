@@ -1722,13 +1722,13 @@ test('62. 解锁链无软锁：从初始集合迭代到不动点，全站载体�
    * 一个分支的不动点：已开载体的全部块视为真正看过，重算投放，直到不再变长。
    * days 取 DAYS_CAP（轮次早已封顶，不影响投放判定）。
    */
-  const reach = (reviewChoice: 'expand' | 'reduce'): Set<string> => {
+  const reach = (reviewChoice: 'expand' | 'reduce', finalChoice: string | null): Set<string> => {
     const open = new Set<string>();
     for (;;) {
       const seen: Record<string, number> = {};
       for (const c of carriers)
         if (open.has(c.key)) for (const id of c.blocks) seen[id] = 3000;
-      const st = { days: 60, seen, reconstruct: scenesDone(), reviewChoice };
+      const st = { days: 60, seen, reconstruct: scenesDone(), reviewChoice, finalChoice };
       let grew = false;
       for (const c of carriers) {
         if (open.has(c.key)) continue;
@@ -1742,8 +1742,13 @@ test('62. 解锁链无软锁：从初始集合迭代到不动点，全站载体�
   };
 
   // 复核名录两页互斥（afterReview），各自只在一个分支里可达；
-  // 因此判据是两个分支的并集，不是单一分支。
-  const union = new Set([...reach('expand'), ...reach('reduce')]);
+  // 终局轨只在登记终选后可达。因此判据是全部分支的并集，不是单一分支。
+  const union = new Set([
+    ...reach('expand', null),
+    ...reach('reduce', null),
+    ...reach('expand', 'C'),
+    ...reach('reduce', 'C'),
+  ]);
   const stuck = carriers.filter((c) => !union.has(c.key)).map((c) => `${c.key}（${c.label}）`);
   expect(stuck).toEqual([]);
 });
@@ -1964,7 +1969,7 @@ test('69. 终局轨门：afterChoice 只在登记终选后开；游玩中载体�
   for (const h of HOT_SNAPSHOTS) if (h.reveal?.afterChoice) users.push(`hot:${h.id}`);
   for (const s of STORIES) if (s.reveal?.afterChoice) users.push(`story:${s.id}`);
   for (const c of CHRONICLES) if (c.reveal?.afterChoice) users.push(`chronicle:${c.id}`);
-  expect(users).toEqual(['entry-revision:manuscript-ledger']);
+  expect(users).toEqual(['entry-revision:manuscript-ledger', 'chronicle:chronicle-x1']);
 });
 
 test('70. 终局第十一行：房腔与登记簿一致，日期早于入档整理', () => {
