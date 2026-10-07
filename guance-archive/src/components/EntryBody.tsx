@@ -173,9 +173,10 @@ function Block({ block, slug }: { block: ContentBlock; slug: string }) {
 
     case 'register':
       // 动态登记行：接手后由 {id}/{day} 占位填充（见 RegisterEntry）。
+      // retainsId 由数据声明：清档后仍写旧编号的那一行，全站只允许一处。
       return (
         <div data-bid={block.id}>
-          <RegisterEntry template={block.text ?? ''} />
+          <RegisterEntry template={block.text ?? ''} retains={block.retainsId ?? false} />
         </div>
       );
 

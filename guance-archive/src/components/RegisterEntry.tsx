@@ -1,7 +1,7 @@
 'use client';
 
 import { localDay, useTrace } from '@/lib/traceStore';
-import { viewerIdOf } from '@/lib/resolve/identity';
+import { registerIdFor } from '@/lib/resolve/identity';
 import { sealText } from '@/lib/resolve/receipt';
 import { useHydrated } from '@/lib/useHydrated';
 
@@ -13,18 +13,28 @@ import { useHydrated } from '@/lib/useHydrated';
  * - 末尾那行两个都填——今天，读者正在查阅的这本簿子；
  * - 函件回执行填签收状态——签了写代签结果，不点写“（未填）”。
  *
+ * 2024.11.03 那行另有一条性质（retainsId）：清档之后它继续写着清档前的
+ * 旧编号。簿子不承认有人清过档——它只是记得谁来调阅过。
+ *
  * 纪律同台账：接手前这一行不存在。它不解释自己，也不需要解释——
  * 登记簿里其他行都是这么写的。
  */
-export function RegisterEntry({ template }: { template: string }) {
+export function RegisterEntry({
+  template,
+  retains = false,
+}: {
+  template: string;
+  retains?: boolean;
+}) {
   const hydrated = useHydrated();
   const visits = useTrace((s) => s.visits);
   const receipt = useTrace((s) => s.receipt);
+  const prevViewerId = useTrace((s) => s.prevViewerId);
 
   if (!hydrated) return null;
 
   const line = template
-    .replace(/\{id\}/g, viewerIdOf(visits))
+    .replace(/\{id\}/g, registerIdFor({ retains, prevViewerId, visits }))
     .replace(/\{day\}/g, localDay().replace(/-/g, '.'))
     .replace(/\{seal\}/g, sealText(receipt));
 

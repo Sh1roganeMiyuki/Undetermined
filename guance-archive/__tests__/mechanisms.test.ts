@@ -35,6 +35,7 @@ import {
   revisionShown,
 } from '@/lib/resolve/reveal';
 import { GATE_ANCHORS } from '@/lib/resolve/gates';
+import { registerIdFor, viewerIdOf } from '@/lib/resolve/identity';
 import { buildSearchDocs, normText, pickSearchPiece, searchDocs } from '@/lib/searchIndex';
 import { migrateTrace, SEEN_CAP, useTrace } from '@/lib/traceStore';
 
@@ -419,6 +420,7 @@ test('24. 外部材料存档：投放链与结构完整性（同一事件多载�
     'net-1113',
     'net-1114',
     'net-1115',
+    'net-1215',
   ]);
   const netBlackout = NET_RECORDS.filter((r) => r.reveal?.afterSeen?.[0] === 'chronicle-02-blackout');
   expect(netBlackout).toHaveLength(7);
@@ -1877,4 +1879,61 @@ test('66. 冷库时间链自洽；2.4 为跨时代同构签名（仅两处，改
   };
   for (const e of ENTRIES) walk(e, e.slug);
   expect(hits.sort()).toEqual(['event-1129', 'record-coldstore-temp']);
+});
+
+test('67. 清档编号留存一处：resetAll 保留旧编号，连清两次不冲零', () => {
+  useTrace.getState().resetAll();
+  // 无行为时清档：不留存任何东西（没有存在过的人没有名字）
+  expect(useTrace.getState().prevViewerId).toBeNull();
+
+  useTrace.getState().enterEntry('north-loop-tunnel');
+  const before = viewerIdOf(useTrace.getState().visits);
+  expect(before).not.toBe('GA-000000');
+
+  useTrace.getState().resetAll();
+  expect(useTrace.getState().prevViewerId).toBe(before);
+  expect(viewerIdOf(useTrace.getState().visits)).toBe('GA-000000');
+  // 连清两次：留存不被冲成零号
+  useTrace.getState().resetAll();
+  expect(useTrace.getState().prevViewerId).toBe(before);
+
+  // 取号唯一出口：retains 行读旧号，普通行读当前号
+  const s = useTrace.getState();
+  expect(
+    registerIdFor({ retains: true, prevViewerId: s.prevViewerId, visits: s.visits }),
+  ).toBe(before);
+  expect(
+    registerIdFor({ retains: false, prevViewerId: s.prevViewerId, visits: s.visits }),
+  ).toBe('GA-000000');
+
+  // 留存之所以有重量，正因为它只有一处
+  const retains = ENTRIES.flatMap((e) => e.blocks).filter((b) => b.retainsId);
+  expect(retains.map((b) => b.id)).toEqual(['access-register-line-1103']);
+  s.resetAll();
+});
+
+test('68. 自我化石：首次定稿冻结停留读数；清档清它（留存只有一处）', () => {
+  useTrace.getState().resetAll();
+  useTrace.getState().markSeen('north-loop-tunnel-infra', 90_000);
+  useTrace.getState().markSeen('event-1207-summary', 5_000);
+  expect(useTrace.getState().frozenLongest).toBeNull();
+
+  // 第一次定稿：世界定稿了你的一份读数
+  useTrace.getState().snapshot('event-1207-summary', 'x');
+  const f = useTrace.getState().frozenLongest;
+  expect(f).not.toBeNull();
+  expect(f!.id).toBe('north-loop-tunnel-infra');
+  expect(f!.ms).toBe(90_000);
+
+  // 之后继续读、继续定稿，读数不再动
+  useTrace.getState().markSeen('event-1207-summary', 200_000);
+  useTrace.getState().snapshot('north-loop-tunnel-infra', 'y');
+  expect(useTrace.getState().frozenLongest).toEqual(f);
+
+  // 不足显著时长的停留不构成冻结（与台账同门槛）
+  useTrace.getState().resetAll();
+  useTrace.getState().markSeen('event-1207-summary', 2_000);
+  useTrace.getState().snapshot('event-1207-summary', 'z');
+  expect(useTrace.getState().frozenLongest).toBeNull();
+  useTrace.getState().resetAll();
 });

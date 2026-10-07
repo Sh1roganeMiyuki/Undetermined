@@ -26,3 +26,19 @@ export function viewerIdOf(visits: Record<string, FirstVisitLike>): string {
   const hex = hash32(`${firstAt}:${firstSlug}`).toString(16).toUpperCase();
   return `GA-${hex.padStart(6, '0').slice(0, 6)}`;
 }
+
+/**
+ * 动态登记行取编号的唯一出口（02 §3.6“编号留存一处”）。
+ *
+ * 普通行取当前编号；声明了 retainsId 的那一行在清档后继续渲染清档前的
+ * 旧编号——档案记得一个读者自己已经没有了的名字。留存只允许这一处，
+ * 所以这个判断不收进组件，也不允许在别处复制。
+ */
+export function registerIdFor(o: {
+  retains: boolean;
+  prevViewerId: string | null;
+  visits: Record<string, FirstVisitLike>;
+}): string {
+  if (o.retains && o.prevViewerId) return o.prevViewerId;
+  return viewerIdOf(o.visits);
+}

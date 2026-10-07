@@ -158,6 +158,9 @@ export const accessRegister: WikiEntry = {
     {
       id: 'access-register-line-1103',
       type: 'register',
+      // 编号留存一处（02 §3.6）：清档之后全站的读者编号归零，
+      // 只有这一行继续写着清档前的旧编号。簿子不承认有人清过档。
+      retainsId: true,
       text: '2024.11.03　{id}　调阅：《10·24 相关材料汇编》　事由：（略）',
     },
     {

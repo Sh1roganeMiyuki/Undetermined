@@ -68,6 +68,8 @@ export default function TracePage() {
   const seen = useTrace((s) => s.seen);
   const tabs = useTrace((s) => s.tabs);
   const visits = useTrace((s) => s.visits);
+  // 自我化石：存在即“停留最久的一段”已停在某一次定稿的那一刻。
+  const frozen = useTrace((s) => s.frozenLongest);
 
   // 页面到访：真实台账与幽灵记录混排。幽灵不算操作、不落存档，只在显示时合并（见 ghosts.ts）。
   const pages = [...actions.filter((a) => a.kind !== 'search'), ...ghostActions(days)]
@@ -185,7 +187,15 @@ export default function TracePage() {
           </Section>
 
           <Section title="停留最久的一段">
-            {topId ? (
+            {frozen ? (
+              /* 化石行：引号与时长都停在冻结那一刻，而本页其余数字照常走。
+                 不加任何标注——台账里“留存后不再更新”的话只说过原句，
+                 没说过读数；读者自己发现某一格不再动。 */
+              <p suppressHydrationWarning>
+                {frozen.text ? `“${quote(frozen.text)}”` : '（该项文本未留存。）'}
+                <span className="ml-2 text-gray-400">累计 {duration(frozen.ms)}</span>
+              </p>
+            ) : topId ? (
               <p suppressHydrationWarning>
                 {topText ? `“${topText}”` : '（该项文本未留存。）'}
                 <span className="ml-2 text-gray-400">累计 {duration(topMs)}</span>

@@ -224,6 +224,18 @@ export const NET_RECORDS: NetRecord[] = [
     ],
     reveal: AFTER_BLACKOUT,
   },
+  {
+    // 收连载二石头那句“我不删”：他手里那份东西后来露过一面，
+    // 然后在 12·15 消失。时长三十秒——与他说的“全黑那段”同长。
+    // 三处互不引用（本条、连载二、同城榜 12-15 修订的第 8 位空缺），
+    // 三角形由读者自己拼；本站不说破。
+    id: 'net-1215',
+    at: '12 月 15 日',
+    channel: '短视频平台（存档页）',
+    text: '一条 12 月 8 日上传的视频于本日不可见。存档页只剩标题与时长：标题是一串数字，时长 00:30。上传者账号同日不可见。',
+    note: '该条不可见后，未再出现于任何榜单导出。',
+    reveal: { afterSeen: ['chronicle-02-p64'] },
+  },
 ];
 
 export function netRecordText(id: string): string {

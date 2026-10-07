@@ -5,6 +5,8 @@ import { persist } from 'zustand/middleware';
 import type { PersistStorage, StorageValue } from 'zustand/middleware';
 import { viewerIdOf } from '@/lib/resolve/identity';
 import { GATE_ANCHORS } from '@/lib/resolve/gates';
+import { MIN_LONGEST_MS } from '@/lib/resolve/ledger';
+import { blockText } from '@/data/entries';
 
 const TRACE_CAP = 300; // 有界：超出丢弃最旧
 /**
@@ -54,6 +56,20 @@ export interface ActionItem {
   kind: string;
   target: string;
 }
+
+/**
+ * 自我化石：第一次定稿时冻结的一份“停留最久”读数（07 §7.2-6）。
+ * “以原样返回”这条世界观规则，第一次落在读者自己身上。
+ */
+export interface FrozenLongest {
+  id: string;
+  ms: number;
+  text: string;
+  at: number;
+}
+
+/** 没有行为时的编号。清档后是否“真的存在过”由它判别。 */
+const ZERO_ID = viewerIdOf({});
 
 /** 还原台的比对进度：已登记的矛盾与已提交的处置意见。 */
 export interface ReconstructProgress {
@@ -114,6 +130,13 @@ export interface TraceState {
    * 此后「城北政务」关停线对他撤稿——回执替换正文。一旦写入不可撤销。
    */
   interceptedAt: number | null;
+  /**
+   * 清档前的编号。只被《档案调阅登记》里 retainsId 的那一行读取（02 §3.6）。
+   * 不在 EMPTY 里：清档不清它——留存之所以有重量，正因为它只有一处。
+   */
+  prevViewerId: string | null;
+  /** 自我化石读数。在 EMPTY 里：清档会清它（留存只有一处，不给第二处）。 */
+  frozenLongest: FrozenLongest | null;
 
   markSeen(id: string, ms: number): void;
   enterEntry(slug: string): void;
@@ -155,8 +178,9 @@ const EMPTY = {
   reviewChoice: null as string | null,
   climbedAt: null as number | null,
   interceptedAt: null as number | null,
+  // 自我化石读数在 EMPTY 里：清档会清它。prevViewerId 故意不在——清档不清它。
+  frozenLongest: null as FrozenLongest | null,
 };
-
 /**
  * 存档读写的防御层。
  * - 只认能解开的 JSON：坏存档一律当作"没有存档"——世界从零开始，
@@ -232,6 +256,8 @@ export const useTrace = create<TraceState>()(
   persist(
     (set, get) => ({
       ...EMPTY,
+      prevViewerId: null as string | null,
+      frozenLongest: null as FrozenLongest | null,
 
       markSeen(id, ms) {
         if (!(ms > 0)) return;
@@ -295,7 +321,7 @@ export const useTrace = create<TraceState>()(
         set({ tabs: fresh });
       },
 
-      /** 一旦写入永不覆盖：已存在就直接返回，不更新文本也不更新时间戳。 */
+      /** 一旦写入永不覆盖：存在即已定稿，化石只认第一次。 */
       snapshot(id, text) {
         set((s) => {
           if (s.snapshots[id]) return s;
@@ -310,7 +336,28 @@ export const useTrace = create<TraceState>()(
               .slice(0, keys.length - SNAP_CAP);
             for (const k of drop) delete snapshots[k];
           }
-          return { snapshots };
+          // 自我化石：你定稿世界的那一刻，世界也定稿了你的一份读数。
+          // 此后 /trace 的“停留最久的一段”停在这一帧，其余数字照常走。
+          let frozenLongest = s.frozenLongest;
+          if (!frozenLongest) {
+            let bestId = '';
+            let bestMs = 0;
+            for (const [k, ms] of Object.entries(s.seen))
+              if (ms > bestMs) {
+                bestMs = ms;
+                bestId = k;
+              }
+            // 与台账同口径：不足显著时长的停留不构成“最久的一段”
+            if (bestId && bestMs >= MIN_LONGEST_MS) {
+              frozenLongest = {
+                id: bestId,
+                ms: bestMs,
+                text: snapshots[bestId]?.text ?? blockText(bestId),
+                at: Date.now(),
+              };
+            }
+          }
+          return { snapshots, frozenLongest };
         });
       },
 
@@ -430,7 +477,13 @@ export const useTrace = create<TraceState>()(
       },
 
       resetAll() {
-        set({ ...EMPTY });
+        set((s) => {
+          // 清档不是清零：编号留存在调阅登记那一行（02 §3.6），且只留那一处。
+          // 连清两次不会把第一次的留存冲成 GA-000000。
+          const cur = viewerIdOf(s.visits);
+          const prevViewerId = cur === ZERO_ID ? s.prevViewerId : cur;
+          return { ...EMPTY, prevViewerId };
+        });
       },
     }),
     {

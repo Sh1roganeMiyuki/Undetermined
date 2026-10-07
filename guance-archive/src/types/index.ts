@@ -87,6 +87,11 @@ export interface ContentBlock {
   driftable?: boolean;
   /** 最早允许漂移的轮次，默认 1 */
   minRound?: number;
+  /**
+   * 动态登记行专用：清档后仍渲染清档前的旧编号（02 §3.6“编号留存一处”）。
+   * 全站只允许一处为 true——留存之所以有重量，正因为它只有一处。
+   */
+  retainsId?: boolean;
 }
 
 export interface EditRecord {

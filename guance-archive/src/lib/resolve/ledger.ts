@@ -47,8 +47,9 @@ function clip(text: string, n: number): string {
   return t.length > n ? `${t.slice(0, n)}……` : t;
 }
 
-/** 低于这个时长的停留不进台账——"最久的一段"得像一段，而不是一瞥。 */
-const MIN_LONGEST_MS = 3000;
+/** 低于这个时长的停留不进台账——"最久的一段"得像一段，而不是一瞥。
+ *  自我化石（traceStore 的 frozenLongest）共用同一条门槛：两处口径必须是一个数。 */
+export const MIN_LONGEST_MS = 3000;
 
 export function buildLedger(input: LedgerInput): LedgerData {
   const { seen, snapshots, visits, days } = input;
