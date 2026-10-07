@@ -1937,3 +1937,29 @@ test('68. 自我化石：首次定稿冻结停留读数；清档清它（留存�
   expect(useTrace.getState().frozenLongest).toBeNull();
   useTrace.getState().resetAll();
 });
+
+test('69. 终局轨门：afterChoice 只在登记终选后开；游玩中载体不得使用', () => {
+  const base = { days: 9, seen: {}, reconstruct: {} };
+  expect(meetsRule({ afterChoice: true }, base)).toBe(false);
+  expect(meetsRule({ afterChoice: true }, { ...base, finalChoice: null })).toBe(false);
+  expect(meetsRule({ afterChoice: true }, { ...base, finalChoice: 'C' })).toBe(true);
+  expect(meetsRule({ afterChoice: true }, { ...base, finalChoice: 'D' })).toBe(true);
+  // 与其它条件仍是“与”：终局轨也可以再叠自己的入射角
+  expect(
+    meetsRule({ afterChoice: true, afterDays: 9 }, { ...base, finalChoice: 'D' }),
+  ).toBe(false);
+
+  // 纪律：游玩中的载体（词条/政务/新闻/网络存档/榜单）不得挂终局门——
+  // 档案给所有人，小说给走完的人。门混用会让游玩中的内容依赖终选。
+  const uses = (r: RevealRule | undefined): boolean =>
+    !!r && (r.afterChoice === true || (r.anyOf ?? []).some(uses));
+  const inPlay: (RevealRule | undefined)[] = [
+    ...ENTRIES.map((e) => e.reveal),
+    ...ENTRIES.flatMap((e) => (e.revisions ?? []).map((r) => r.reveal)),
+    ...GOV_DOCS.map((g) => g.reveal),
+    ...NEWS_ISSUES.map((n) => n.reveal),
+    ...NET_RECORDS.map((r) => r.reveal),
+    ...HOT_SNAPSHOTS.map((h) => h.reveal),
+  ];
+  expect(inPlay.filter(uses)).toEqual([]);
+});

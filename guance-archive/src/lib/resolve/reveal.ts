@@ -22,6 +22,8 @@ export interface RevealState {
   reconstruct: Record<string, { marks: string[]; verdict?: string }>;
   /** 复核征询的登记结果（afterReview 条件用）。未登记为 undefined / null */
   reviewChoice?: string | null;
+  /** 最终选择（afterChoice 条件用，终局轨）。未登记为 undefined / null */
+  finalChoice?: string | null;
 }
 
 /** 单个条件是否满足。未声明任何条件的规则恒为满足。 */
@@ -53,6 +55,9 @@ export function meetsRule(rule: RevealRule | undefined, s: RevealState): boolean
     if (!frameUnlocked(scene, progress?.marks ?? [], progress?.verdict)) return false;
   }
   if (rule.afterReview !== undefined && s.reviewChoice !== rule.afterReview) return false;
+  // 终局轨：小说只给走完的人。缺省（旧调用点不传）视为未登记——
+  // 门只会更紧，不会更松。
+  if (rule.afterChoice && !(s.finalChoice ?? null)) return false;
   return true;
 }
 

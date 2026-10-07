@@ -12,5 +12,7 @@ export function useRevealState(): RevealState {
   const seen = useTrace((s) => s.seen);
   const reconstruct = useTrace((s) => s.reconstruct);
   const reviewChoice = useTrace((s) => s.reviewChoice);
-  return { days, seen, reconstruct, reviewChoice };
+  // 终局轨：小说只给走完的人。订阅字段级，不订阅全量 store（04 §9.3）。
+  const finalChoice = useTrace((s) => s.finalChoice);
+  return { days, seen, reconstruct, reviewChoice, finalChoice };
 }
