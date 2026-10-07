@@ -1949,17 +1949,44 @@ test('69. 终局轨门：afterChoice 只在登记终选后开；游玩中载体�
     meetsRule({ afterChoice: true, afterDays: 9 }, { ...base, finalChoice: 'D' }),
   ).toBe(false);
 
-  // 纪律：游玩中的载体（词条/政务/新闻/网络存档/榜单）不得挂终局门——
-  // 档案给所有人，小说给走完的人。门混用会让游玩中的内容依赖终选。
-  const uses = (r: RevealRule | undefined): boolean =>
-    !!r && (r.afterChoice === true || (r.anyOf ?? []).some(uses));
-  const inPlay: (RevealRule | undefined)[] = [
-    ...ENTRIES.map((e) => e.reveal),
-    ...ENTRIES.flatMap((e) => (e.revisions ?? []).map((r) => r.reveal)),
-    ...GOV_DOCS.map((g) => g.reveal),
-    ...NEWS_ISSUES.map((n) => n.reveal),
-    ...NET_RECORDS.map((r) => r.reveal),
-    ...HOT_SNAPSHOTS.map((h) => h.reveal),
-  ];
-  expect(inPlay.filter(uses)).toEqual([]);
+  // 终局轨登记点花名册：afterChoice 只允许出现在这份名单里。
+  // 游玩中的进度内容不得依赖终选（档案给所有人，小说给走完的人）；
+  // 别卷开写时往名单里加 chronicle/story 项，而不是放宽这条断言。
+  const users: string[] = [];
+  for (const e of ENTRIES) {
+    if (e.reveal?.afterChoice) users.push(`entry:${e.slug}`);
+    for (const r of e.revisions ?? [])
+      if (r.reveal?.afterChoice) users.push(`entry-revision:${e.slug}`);
+  }
+  for (const g of GOV_DOCS) if (g.reveal?.afterChoice) users.push(`gov:${g.id}`);
+  for (const n of NEWS_ISSUES) if (n.reveal?.afterChoice) users.push(`news:${n.id}`);
+  for (const r of NET_RECORDS) if (r.reveal?.afterChoice) users.push(`net:${r.id}`);
+  for (const h of HOT_SNAPSHOTS) if (h.reveal?.afterChoice) users.push(`hot:${h.id}`);
+  for (const s of STORIES) if (s.reveal?.afterChoice) users.push(`story:${s.id}`);
+  for (const c of CHRONICLES) if (c.reveal?.afterChoice) users.push(`chronicle:${c.id}`);
+  expect(users).toEqual(['entry-revision:manuscript-ledger']);
+});
+
+test('70. 终局第十一行：房腔与登记簿一致，日期早于入档整理', () => {
+  const ledger = getEntry('manuscript-ledger')!;
+  const rev = ledger.revisions!.find((r) => r.reveal?.afterChoice)!;
+  expect(rev.title).toContain('补录');
+  // 全篇仅此一行指向终选后的读者本人（meta 密度封顶，04 §11.4）
+  expect(rev.blocks).toHaveLength(1);
+  const line = rev.blocks[0];
+  expect(line.type).toBe('register');
+  const t = line.text!;
+  // 房腔：日期／编号栏／动词／册数与署名／编号／备注栏，一个格都不错位
+  expect(t).toContain('2025.04.07');
+  expect(t).toContain('{id}');
+  expect(t).toContain('交：别卷原稿');
+  expect(t).toContain('编号 WG-11');
+  expect(t).toContain('备注：（未填）');
+  // 交稿日早于登记簿自身的整理影印入卷：行是补录的，日期却是先于入卷的——
+  // 时间戳早于读者的痕迹，与 EX-05 同族
+  const rowDate = t.slice(0, 10);
+  const filedAt = ledger.history[0].at.slice(0, 10).replace(/-/g, '.');
+  expect(rowDate < filedAt).toBe(true);
+  // 十行旧行的房腔样本，用于肉眼对照（不断言，只保证样本还在）
+  expect(ledger.blocks.some((b) => (b.text ?? '').includes('编号 WG-09'))).toBe(true);
 });

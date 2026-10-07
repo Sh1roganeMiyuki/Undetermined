@@ -129,6 +129,25 @@ export const manuscriptLedger: WikiEntry = {
       text: '（摘录到此。登记簿其余页次从略。）',
     },
   ],
+  // 终局 meta 登记点（07 §2.4 / 04 §11.4 封顶清单之末）：
+  // 登记最终选择之后，这本簿子多出一行——编号栏是读者本人，动词是“交”，
+  // 日期早于读者到来（与 EX-05 同族：对照物的时间戳本来就该早于第一个痕迹）。
+  // 两种读法同时成立且都不被确认：你是第十一份文稿的交稿人，
+  // 或者这本簿子连“谁交了什么”都不再可靠。
+  // 它不是系统说话，是 paperwork 把你归档进去；无宣告、无第二人称。
+  revisions: [
+    {
+      title: '2025 年 4 月补录',
+      reveal: { afterChoice: true },
+      blocks: [
+        {
+          id: 'manuscript-ledger-rev1-line11',
+          type: 'register',
+          text: '2025.04.07　{id}　交：别卷原稿（四册，未署）。编号 WG-11。备注：（未填）',
+        },
+      ],
+    },
+  ],
   history: [{ at: '2025-04-08T10:00:00+08:00', by: '内容审核组', note: '整理影印入卷' }],
   related: ['note-xuheng-buyi', 'person-xuheng'],
 };
