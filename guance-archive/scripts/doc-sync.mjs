@@ -27,6 +27,14 @@ const FILES = [
     ids: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'],
   },
   {
+    // 终局轨别卷（afterChoice 门后到达），与连载同居 chronicle.ts。
+    // 2026-10-07 四册齐后抄入汇编，同批纳入本门看守。
+    src: join(root, 'src', 'data', 'chronicle.ts'),
+    label: '别卷',
+    prefix: 'chronicle-',
+    ids: ['x1', 'x2', 'x3', 'x4'],
+  },
+  {
     src: join(root, 'src', 'data', 'stories.ts'),
     label: '口述',
     prefix: 'story-',

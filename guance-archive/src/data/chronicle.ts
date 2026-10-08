@@ -3867,7 +3867,696 @@ const chronicleX1: Story = {
   ],
 };
 
-export const CHRONICLES: Story[] = [chronicle01, chronicle02, chronicle03, chronicle04, chronicle05, chronicle06, chronicle07, chronicle08, chronicle09, chronicle10, chronicleX1];
+/* ------------------------------------------------------------------ *
+ * 别卷二·两栏：陆先生住院那几周（12.08 以后）。同一日期，隔壁房间——
+ * 档案给的是三张观察表、一行领用登记与一句家属回复；这一册给的是
+ * “两栏”这个方法本身：它从哪儿来，以及它在病房里为什么用不下去。
+ *
+ * 限知纪律（逐条对齐 07 §2.4 写作四纪律）：
+ * - 他只知道自己看到的、自己记的、病房里发生的；机制一个字不碰；
+ * - 两处猜测各自收口：“感谢来信”算不算答复（搁下）、住院是不是那天
+ *   走急了吹了风（被医生推翻）；
+ * - 12·07 那晚通道里的事不写；12.02 那通电话只写他拨了、说了半句、挂了，
+ *   他说的那半句不在本册（与 c2412-call-1 的并置由读者完成）；
+ * - “陆先生之后的事”（07 §7.1）不解释：只给“他走到路口就折”这个事实。
+ * - 不重述已给拍点：观察表各行原文不引，11.04 那一格只写“写了三行”。
+ * ------------------------------------------------------------------ */
+const chronicleX2: Story = {
+  id: 'chronicle-x2',
+  title: '别卷二 · 两栏',
+  speaker: '不详（原稿无落款）',
+  at: '2025-04-07T09:00:00+08:00',
+  reveal: { afterChoice: true },
+  blocks: [
+    { id: 'chronicle-x2-h1', type: 'heading', text: '一' },
+    {
+      id: 'chronicle-x2-p1',
+      type: 'paragraph',
+      text: '陆先生退休前在区供销社做统计，做了二十六年。活是把各门市报上来的数字誊进一张大表：左边一栏本月，右边一栏上月，两栏对着看，差多少一眼就出来。别人问他做什么的，他说填表的。',
+    },
+    {
+      id: 'chronicle-x2-p2',
+      type: 'paragraph',
+      text: '二零零几年退休。退休以后他晚上散步，从站前街走到北环路，再走回来，一趟四十来分钟。路他没换过。',
+    },
+    {
+      id: 'chronicle-x2-p3',
+      type: 'paragraph',
+      text: '十月下旬，通道那边开始有人去站着看。他注意到，是因为路口多了几个人，都朝同一个方向，都不说话。他没有凑过去。',
+    },
+    {
+      id: 'chronicle-x2-p4',
+      type: 'paragraph',
+      text: '那天是十月二十六号。回家以后，他在一张纸上写了日期，想了想，用尺子画了一道竖线，把纸分成两半：左边写“看到的”，右边写“没看到的”。他是照着填了二十六年的那种表画的。',
+    },
+    { id: 'chronicle-x2-h2', type: 'heading', text: '二' },
+    {
+      id: 'chronicle-x2-p5',
+      type: 'paragraph',
+      text: '他给自己定了规矩：只写事实，不写形容；两栏都不许空着，空着等于没填。“没有”和“没看到”他也分开——前者是他下的判断，后者是他这一趟的结果。他只要结果。',
+    },
+    {
+      id: 'chronicle-x2-p6',
+      type: 'paragraph',
+      text: '所以右边那一栏一直是满的。左边那一栏，头九天是空的。',
+    },
+    {
+      id: 'chronicle-x2-p7',
+      type: 'paragraph',
+      text: '十一月四号那天，左边那一栏他写了三行。写完他去厨房倒了杯水，回来又看了一遍，没有改。他这辈子誊错的数字都错在手快，没有错在看。',
+    },
+    { id: 'chronicle-x2-h3', type: 'heading', text: '三' },
+    {
+      id: 'chronicle-x2-p8',
+      type: 'paragraph',
+      text: '信是十一月五号寄的。信封是供销社那时候剩下的，地址是他看电视记下来的。十天的表他重新抄了一遍，抄得比原表工整。末尾他写：我不知道这个有没有用。有用的话，我可以接着记。',
+    },
+    {
+      id: 'chronicle-x2-p9',
+      type: 'paragraph',
+      text: '落款他想了想，写了“一名观众”。他不是怕署名。他是觉得那张表比他的名字有用。',
+    },
+    {
+      id: 'chronicle-x2-p10',
+      type: 'paragraph',
+      text: '一个多星期以后来了回复：一张印好的纸，四个字，感谢来信。',
+    },
+    {
+      id: 'chronicle-x2-p11',
+      type: 'paragraph',
+      text: '他把那张纸夹进表里。这四个字算不算答复，他想过两回。他倾向于算——人家收了，看了，回了；他也倾向于不算——字是印的。两个倾向他都没有跟人说，后来也就搁下了。',
+    },
+    { id: 'chronicle-x2-h4', type: 'heading', text: '四' },
+    {
+      id: 'chronicle-x2-p12',
+      type: 'paragraph',
+      text: '十一月七号，他去领了一沓空白的观察用表。领表的地方在一层，一间小屋，门上贴着“资料”。里面的人问做什么用，他说记东西。那人递给他一沓，让他签字。他签了，签得很清楚。',
+    },
+    {
+      id: 'chronicle-x2-p13',
+      type: 'paragraph',
+      text: '回来路上他算过：一沓五十张，一天一张，能用一年多。',
+    },
+    {
+      id: 'chronicle-x2-p14',
+      type: 'paragraph',
+      text: '十一月他接着记。右边那一栏没有一天是空的。左边那一栏，整个十一月只动过一次。',
+    },
+    {
+      id: 'chronicle-x2-p15',
+      type: 'paragraph',
+      text: '十一月十九号晚上，他在通道口外面站着，看见两个年轻人在台阶那边待了很久。他看了一下表，过了一会儿又看了一下：四十分钟。他们一直在那儿，没有走开，也没有互相说话。后来其中一个把相机摔在地上，又拾起来，拾起来以后翻过来看了看镜头。',
+    },
+    {
+      id: 'chronicle-x2-p16',
+      type: 'paragraph',
+      text: '那一格他写：两个年轻人在通道口站了四十分钟。什么都没拍到。其中一人把相机砸在地上，又拾起来。',
+    },
+    {
+      id: 'chronicle-x2-p17',
+      type: 'paragraph',
+      text: '他没有写自己站在哪儿。表上不需要这一项。',
+    },
+    { id: 'chronicle-x2-h5', type: 'heading', text: '五' },
+    {
+      id: 'chronicle-x2-p18',
+      type: 'paragraph',
+      text: '十二月二号，他给那个号码打了一次电话。',
+    },
+    {
+      id: 'chronicle-x2-p19',
+      type: 'paragraph',
+      text: '接通以后先是一段音乐。音乐停了，有人开口，是那种一听就知道照着念的说法。他等对方念完，说了半句，就挂了。',
+    },
+    {
+      id: 'chronicle-x2-p20',
+      type: 'paragraph',
+      text: '挂了以后他在桌边坐了一会儿。他想，那半句应该说完整。他又想，说完整了，对方也是要照着念的。这两句他在心里各说了一遍。',
+    },
+    {
+      id: 'chronicle-x2-p21',
+      type: 'paragraph',
+      text: '十二月三号、五号他都走了那趟，回来各填一格。右边有字，左边没有。',
+    },
+    { id: 'chronicle-x2-h6', type: 'heading', text: '六' },
+    {
+      id: 'chronicle-x2-p22',
+      type: 'paragraph',
+      text: '十二月七号那天冷。他出门加了大衣，走到半路觉得胸口发闷，在路边站了一下。他看了表：八点二十几。他往前走，走得比平时快。',
+    },
+    {
+      id: 'chronicle-x2-p23',
+      type: 'paragraph',
+      text: '到北口他没有停。往里看了一眼：灯是亮的，跟平常一样。他接着走。八点三十五分，他走过北口。',
+    },
+    {
+      id: 'chronicle-x2-p24',
+      type: 'paragraph',
+      text: '到家他把那一格填了，把笔帽按上，把表放在鞋柜上。那天夜里他没有再出门。',
+    },
+    { id: 'chronicle-x2-h7', type: 'heading', text: '七' },
+    {
+      id: 'chronicle-x2-p25',
+      type: 'paragraph',
+      text: '第二天上午，女儿带他去医院做了检查，当天就收下了：四楼靠走廊那头，一间四张床。他起初以为是自己那天走急了，吹了风。医生说的不是这个。他听了一遍，没记住词，记住了“先住着看”。',
+    },
+    {
+      id: 'chronicle-x2-p26',
+      type: 'paragraph',
+      text: '大衣留在家里，那一沓空白表在大衣口袋里。他让女儿回去拿。女儿第二次来，把大衣带来了，表还在。',
+    },
+    {
+      id: 'chronicle-x2-p27',
+      type: 'paragraph',
+      text: '病房里也是有表的：体温单、输液卡、护士站那块白板，一天擦两次。他看那些表，觉得它们都只有一栏，写的都是已经发生了的事。',
+    },
+    {
+      id: 'chronicle-x2-p28',
+      type: 'paragraph',
+      text: '他试着记了两天。第一天他写：六点四十，走廊有人推车过去。右边那一栏他想不出写什么——在这间屋子里，他没有“没看到”的东西。灯一直亮着，门一直开着，一晚上有人进来四回。',
+    },
+    {
+      id: 'chronicle-x2-p29',
+      type: 'paragraph',
+      text: '第二天他把右边那一栏的表头划掉了。划得很直。他这辈子划掉过的表头只有这一次。',
+    },
+    { id: 'chronicle-x2-h8', type: 'heading', text: '八' },
+    {
+      id: 'chronicle-x2-p30',
+      type: 'paragraph',
+      text: '住院那几天，家里的电话响过一次，没有人接。',
+    },
+    {
+      id: 'chronicle-x2-p31',
+      type: 'paragraph',
+      text: '走廊尽头的电视一直开着。他看见过一次那个路口，白天拍的，有人在拉带子。他看了一会儿。换台的人换了台。',
+    },
+    {
+      id: 'chronicle-x2-p32',
+      type: 'paragraph',
+      text: '住了二十几天。出院那天是晴天，女儿去取车，他一个人站在门口等。回去的路上车经过北环路，他看见了那个路口。他没有叫女儿停。',
+    },
+    {
+      id: 'chronicle-x2-p33',
+      type: 'paragraph',
+      text: '到家他把大衣挂好，从口袋里把那沓表拿出来数了数：还剩四十多张。他把它放在鞋柜上，放在原来那个位置。',
+    },
+    {
+      id: 'chronicle-x2-p34',
+      type: 'paragraph',
+      text: '后来他晚上还散步，走到那个路口就折回来。不是不走那条路——是那条路上多了一个路口。',
+    },
+    {
+      id: 'chronicle-x2-p35',
+      type: 'paragraph',
+      text: '他没有跟人说过他为什么在那儿折。有人问他还记不记，他说记着呢。问的人以为他说的是别的事。',
+    },
+  ],
+};
+
+/* ------------------------------------------------------------------ *
+ * 别卷三·全份：程露的 10.17 与 12.07 两天。同一批日期，纸面那一侧——
+ * 档案给的是登记簿四行、一份复核件、一则手记与一张交接单；
+ * 这一册给的是填那些行的人，以及她为什么取整不取页。
+ *
+ * 限知与裁决纪律（07 §2.4 四纪律 ＋ 2026-10-07 作者裁决）：
+ * - “她为什么”永不给（02 §4.9：她的价值在不可确认）。全册不写她的
+ *   外貌、年龄、住处、去向；她只由手、字、表格与动作构成。
+ * - 她自己形成过唯一一个说法（季度旧闻抽查单），在本卷内被单子本身
+ *   推翻，然后搜置——纪律②的形态，不是解释。
+ * - 她全程没有觉察任何异常：数字一样、没有事、照常上班。
+ *   没有恶人，一切合规，一切照常（07 §1.3）。
+ * - 不重写已给拍点：手记十二行、交接单四条物品与三条未了事项、
+ *   复核结论原句，一律不引；12.04 只写手记没写的部分（拍照那一下）。
+ * - b1.ts 明令“12.07 一行只给日期、不给时刻（当天何时复制，永不揭晓）”
+ *   → 第七节整节无任何钟点。
+ * - 对照物独占值（golden 6：'15'、'4 块'）不出现在小说里：
+ *   12.02 那一拍只写“对着底稿数了一遍：一样”。
+ * - 508 是谁、断页为何断、接收人栏为何空、她去了哪儿：一律不碰。
+ * ------------------------------------------------------------------ */
+const chronicleX3: Story = {
+  id: 'chronicle-x3',
+  title: '别卷三 · 全份',
+  speaker: '不详（原稿无落款）',
+  at: '2025-04-07T09:00:00+08:00',
+  reveal: { afterChoice: true },
+  blocks: [
+    { id: 'chronicle-x3-h1', type: 'heading', text: '一' },
+    {
+      id: 'chronicle-x3-p1',
+      type: 'paragraph',
+      text: '程露在内容审核组，做的是复核。一个条目按季度核一次：现行版与底稿并排摊开，一段一段对，对完在结论栏里写例行那一句，签名，归卷。',
+    },
+    {
+      id: 'chronicle-x3-p2',
+      type: 'paragraph',
+      text: '她签名只签两个字，签得快，但每一次都一样。组里的人认她的签名，不用看名字。',
+    },
+    {
+      id: 'chronicle-x3-p3',
+      type: 'paragraph',
+      text: '她的活不难，也不重。难的地方在结论要由人来签：签下去，就是她核过了。所以她核得慢。',
+    },
+    {
+      id: 'chronicle-x3-p4',
+      type: 'paragraph',
+      text: '她的复核底稿一季一册，从 2021 年记到 2024 年，四册。四册都在她抽屉里，别人不翻。',
+    },
+    { id: 'chronicle-x3-h2', type: 'heading', text: '二' },
+    {
+      id: 'chronicle-x3-p5',
+      type: 'paragraph',
+      text: '组里要用的旧材料，多数在图书馆分馆的 B1 阅览室。要复制，得在登记簿上填四项：日期、复制内容、数量、签注。',
+    },
+    {
+      id: 'chronicle-x3-p6',
+      type: 'paragraph',
+      text: '同一本登记簿上，别人填的数量是页：十页、三页、一页。程露填的都是整的——全月、六版、全份。',
+    },
+    {
+      id: 'chronicle-x3-p7',
+      type: 'paragraph',
+      text: '有人问过她一次，为什么不挑几页。她说，挑页要挑，挑完还得回头核；整份拿回去，缺不缺一眼就看得出来。',
+    },
+    {
+      id: 'chronicle-x3-p8',
+      type: 'paragraph',
+      text: '阅览室晚上开到十点。她多数白天去，人少，机器不用等。',
+    },
+    {
+      id: 'chronicle-x3-p9',
+      type: 'paragraph',
+      text: '组里与分馆之间往来用一个交接柜，在 B1 电梯口旁边：件到即登，取件留栏。她取件的时候在取件那一栏签自己的名字，签两个字。那一栏也有空着的时候，空着就是还没转出，她不看第二眼。',
+    },
+    { id: 'chronicle-x3-h3', type: 'heading', text: '三' },
+    {
+      id: 'chronicle-x3-p10',
+      type: 'paragraph',
+      text: '十月十七号她去了一趟 B1，复制《城北晨讯》2018 年 10 月的合订本，第 4 版到第 9 版，全月。',
+    },
+    {
+      id: 'chronicle-x3-p11',
+      type: 'paragraph',
+      text: '合订本厚，机器一页一页过，过一页亮一下。她站在旁边等，中间把错位的一沓理齐了两次。',
+    },
+    {
+      id: 'chronicle-x3-p12',
+      type: 'paragraph',
+      text: '复制完她自己在装订机上压了边，用夹子夹好。回办公室的路上她抱着，纸边朝里。',
+    },
+    {
+      id: 'chronicle-x3-p13',
+      type: 'paragraph',
+      text: '那天没有什么事。她的日历上那天只有一项：上午组内例会。',
+    },
+    { id: 'chronicle-x3-h4', type: 'heading', text: '四' },
+    {
+      id: 'chronicle-x3-p14',
+      type: 'paragraph',
+      text: '她后来想起这一趟，是因为要写季度小结。她去翻那一季度的旧闻抽查单：单子上列了七项，没有 2018 年 10 月。',
+    },
+    {
+      id: 'chronicle-x3-p15',
+      type: 'paragraph',
+      text: '她把单子看了一遍，又看了一遍。她记得自己那阵子没有接到过这一项。',
+    },
+    {
+      id: 'chronicle-x3-p16',
+      type: 'paragraph',
+      text: '她没有去问。问了也只有一个答案：单子上没有，就是没有。她把单子放回夹子，夹子推回抽屉。',
+    },
+    {
+      id: 'chronicle-x3-p17',
+      type: 'paragraph',
+      text: '那一摞她放在桌角，没有拆。那个月里有什么，她说不上来。',
+    },
+    { id: 'chronicle-x3-h5', type: 'heading', text: '五' },
+    {
+      id: 'chronicle-x3-p18',
+      type: 'paragraph',
+      text: '十一月三十号她又去了一趟，复制 2018 年 11 月的合订本，也是第 4 版到第 9 版。这一次单子上有：季度旧闻抽查，第三项。',
+    },
+    {
+      id: 'chronicle-x3-p19',
+      type: 'paragraph',
+      text: '十二月二号上午，交接柜里到了她的一件：北环路地下通道条目的复核件，附底稿。她签了取件。',
+    },
+    {
+      id: 'chronicle-x3-p20',
+      type: 'paragraph',
+      text: '她核了一个上午。有一段引文里带着数字，她对着底稿数了一遍：一样。',
+    },
+    {
+      id: 'chronicle-x3-p21',
+      type: 'paragraph',
+      text: '十一点四十，她在结论栏里写了例行那一句，签了名，把底稿订回去，交给归卷的人。',
+    },
+    {
+      id: 'chronicle-x3-p22',
+      type: 'paragraph',
+      text: '那天她一共核了三件。这是第二件。',
+    },
+    { id: 'chronicle-x3-h6', type: 'heading', text: '六' },
+    {
+      id: 'chronicle-x3-p23',
+      type: 'paragraph',
+      text: '十二月四号她去白昼馆。前台要手续，她带了：复核通知、工作证、房卡授权单。前台打了个电话，让人下来接。',
+    },
+    {
+      id: 'chronicle-x3-p24',
+      type: 'paragraph',
+      text: '她从三层开始，一层一层往上走。走廊的灯是感应的，走一段亮一段。她走得慢，每间门口都停一下，看门牌，对名单。',
+    },
+    {
+      id: 'chronicle-x3-p25',
+      type: 'paragraph',
+      text: '五层她待得最久。出来的时候她把门带上——门是自己会锁的那种。',
+    },
+    {
+      id: 'chronicle-x3-p26',
+      type: 'paragraph',
+      text: '她在里面拍了一张照片。流程里没有要求拍照：复核件的附件是表格，不是照片。她还是拍了。',
+    },
+    {
+      id: 'chronicle-x3-p27',
+      type: 'paragraph',
+      text: '拍完她看了一眼，没有删，也没有重拍，把手机放回口袋。',
+    },
+    {
+      id: 'chronicle-x3-p28',
+      type: 'paragraph',
+      text: '下楼的时候前台问她有没有事。她说没有。',
+    },
+    { id: 'chronicle-x3-h7', type: 'heading', text: '七' },
+    {
+      id: 'chronicle-x3-p29',
+      type: 'paragraph',
+      text: '十二月五号起，分馆贴出通知：夜间阅览室试行预约进馆，馆内资料复制一律提前登记，由工作人员代办。通知是四号贴的。',
+    },
+    {
+      id: 'chronicle-x3-p30',
+      type: 'paragraph',
+      text: '那天她也复制了一次：2019 年 12 月的合订本，第 4 版到第 9 版。她填了提前登记，工作人员去取，她在阅览室里等。',
+    },
+    {
+      id: 'chronicle-x3-p31',
+      type: 'paragraph',
+      text: '十二月七号她又去了一趟。这一次要的不是合订本，是一整卷。数量那一栏她写的是全份。',
+    },
+    {
+      id: 'chronicle-x3-p32',
+      type: 'paragraph',
+      text: '那一卷比三本合订本加起来还厚。工作人员用绳子捆了，她两只手抱着走回来的。绳子是十字捆的，她在分馆门口放下来重新捆了一次。',
+    },
+    {
+      id: 'chronicle-x3-p33',
+      type: 'paragraph',
+      text: '回到办公室，她把那一卷放在桌角。桌角原来放着三摞：2018 年 10 月、2018 年 11 月、2019 年 12 月。新的一卷靠在它们旁边，四份齐了，桌角满了。',
+    },
+    {
+      id: 'chronicle-x3-p34',
+      type: 'paragraph',
+      text: '她把那一卷靠墙立好，把表格摊开，接着做当天的第二件事。',
+    },
+    { id: 'chronicle-x3-h8', type: 'heading', text: '八' },
+    {
+      id: 'chronicle-x3-p35',
+      type: 'paragraph',
+      text: '第二年二月，她岗位变动，另有任用。走之前她填交接单。',
+    },
+    {
+      id: 'chronicle-x3-p36',
+      type: 'paragraph',
+      text: '移交物品她列了四条。列到第四条的时候她停了一下：那是一张调阅申请，和它的答复。',
+    },
+    {
+      id: 'chronicle-x3-p37',
+      type: 'paragraph',
+      text: '申请是她自己递的，要的是冷库那一卷。答复只有一行：不予批准。没有写理由——调阅审批本来也不写理由。',
+    },
+    {
+      id: 'chronicle-x3-p38',
+      type: 'paragraph',
+      text: '她没有递第二次。她把申请和答复订在一起，订书针打在左上角，和其他三条放在一起。',
+    },
+    {
+      id: 'chronicle-x3-p39',
+      type: 'paragraph',
+      text: '未了事项三条，她写得很快，三条都是能照着办的话。写完她签了名，还是那两个字，还是那么快。',
+    },
+    {
+      id: 'chronicle-x3-p40',
+      type: 'paragraph',
+      text: '走之前那几天，她把桌角那四份归了卷：写卷内目录，一摞一页，贴标签，送归卷室。归卷室的人收了，在单子上签了字。',
+    },
+    {
+      id: 'chronicle-x3-p41',
+      type: 'paragraph',
+      text: '东西她一份一份点过：四册、一件、一组、一件。都是整的。她把它们抱到隔壁桌上，回来坐下。',
+    },
+    {
+      id: 'chronicle-x3-p42',
+      type: 'paragraph',
+      text: '桌角空了。她把笔筒里的笔理直，站起来，把椅子推回桌下。',
+    },
+  ],
+};
+
+/* ------------------------------------------------------------------ *
+ * 别卷四·等通知：2019.12.21 夜，调度室。同一夜，说一句的那一侧——
+ * 连载八在冷库值班室里听电话，这一册在屏前说电话。
+ *
+ * 离轴点：读者从连载八 p20 听到那三句时，它像一句给何川的答复；
+ * 本册把它送回说它的那张嘴，暂露它是一晚说了几十遍的模板。
+ * 不重写拍点：三句只出现一次且不作为对何川的回应复现（“他把那三句
+ * 说了一遍”），也不引原文“你们那边”四字；老田的发现过程、搜寻、妹妹、
+ * “未领”、猫、椅子、折线图、报废发电机纸条，全部不碰。
+ *
+ * 限知与纪律（07 §2.4 四纪律）：
+ * - 他只知道自己的屏、自己的单子、自己的那三句；他至终不知道那通电话
+ *   是谁打的，也不知道后来怎样了；
+ * - 纪律②的猜测只有一处（“多打一分钟会不会不一样”），被他自己推翻：
+ *   那一分钟里他能说的还是那三句；
+ * - 不解释停电为何是四十分钟（抢修就是要那么久），不碰 2.4℃／EX-07／EX-08；
+ * - 对时：22:14 高压线路故障（事故报告同口径）、电话 22:2x（在 p20 与 p31
+ *   “还剩十分钟”的窗口内）、23 时前后复电、“四十来分钟”（广播口径）；
+ * - 全册零第二人称（引语里的“你们那边”也不写），零 L0 术语，
+ *   零对照物独占值（'15'、'4 块'）。
+ * ------------------------------------------------------------------ */
+const chronicleX4: Story = {
+  id: 'chronicle-x4',
+  title: '别卷四 · 等通知',
+  speaker: '不详（原稿无落款）',
+  at: '2025-04-07T09:00:00+08:00',
+  reveal: { afterChoice: true },
+  blocks: [
+    { id: 'chronicle-x4-h1', type: 'heading', text: '一' },
+    {
+      id: 'chronicle-x4-p1',
+      type: 'paragraph',
+      text: '调度室在二楼，一间没有窗的屋子，四张桌子，一人一班。老范在这间屋子里坐了十九年。',
+    },
+    {
+      id: 'chronicle-x4-p2',
+      type: 'paragraph',
+      text: '他的活是三件：接电话，派单，回话。前两件各有一半靠机器，第三件全靠嘴。',
+    },
+    {
+      id: 'chronicle-x4-p3',
+      type: 'paragraph',
+      text: '回话有固定的说法。说法不是他定的，是多年前定下来的，写在一本手册里。手册换过两次封面，那几句没有换过。',
+    },
+    {
+      id: 'chronicle-x4-p4',
+      type: 'paragraph',
+      text: '他刚来的时候问过师傅：为什么不能多说一句。师傅说：多说的那一句，回头得自己兜。',
+    },
+    {
+      id: 'chronicle-x4-p5',
+      type: 'paragraph',
+      text: '他说话不快，一句是一句。有人跟他开玩笑，说他接电话像念稿。他说念稿有什么不好，稿子是有人先想过的。',
+    },
+    {
+      id: 'chronicle-x4-p6',
+      type: 'paragraph',
+      text: '十九年里，他说过这句话的晚上不止一次。有的是风把线刮断了，有的是施工挖断了，有的是变电站自己跳的。说法都一样，说法不需要跟着原因变。他刚来那年还数过一年里有几回，后来不数了。',
+    },
+    { id: 'chronicle-x4-h2', type: 'heading', text: '二' },
+    {
+      id: 'chronicle-x4-p7',
+      type: 'paragraph',
+      text: '那天是十二月二十一号。二十二点十四分那一下，他这边的屏上亮了一片。',
+    },
+    {
+      id: 'chronicle-x4-p8',
+      type: 'paragraph',
+      text: '高压线路故障，跳的是区里那一路。他先看范围：受影响的不是一家，是一片。他报了抢修，报了范围，报了时间。',
+    },
+    {
+      id: 'chronicle-x4-p9',
+      type: 'paragraph',
+      text: '抢修那边问要不要先保哪一路。他说按单子来。单子上的先后是多年前排好的，他不需要在那一晚重排。',
+    },
+    {
+      id: 'chronicle-x4-p10',
+      type: 'paragraph',
+      text: '单子上的先后是多年前排好的，排的时候他不在场。他问过一次那个先后是怎么定的，得到的回答是重要用户优先。他没有再问。',
+    },
+    { id: 'chronicle-x4-h3', type: 'heading', text: '三' },
+    {
+      id: 'chronicle-x4-p11',
+      type: 'paragraph',
+      text: '电话是从二十二点二十几开始进来的。',
+    },
+    {
+      id: 'chronicle-x4-p12',
+      type: 'paragraph',
+      text: '电话不是一通一通来的，是一阵一阵来的。跳到哪一片，哪一片就打进来。他听得出范围在变——范围小下去的时候，电话也少下去。',
+    },
+    {
+      id: 'chronicle-x4-p13',
+      type: 'paragraph',
+      text: '一片一片地进。有值班的，有门卫，有打错了打进来的住户。他每接一通，先听对方把话说完，再说那三句：区里高压跳了，抢修呢，等通知。',
+    },
+    {
+      id: 'chronicle-x4-p14',
+      type: 'paragraph',
+      text: '三句不能少，也不能多。少了对方要再问，多了对方要挑。那一晚他说了多少遍，他没有数——数不过来，也不必数。',
+    },
+    {
+      id: 'chronicle-x4-p15',
+      type: 'paragraph',
+      text: '有人问什么时候能来。他说等通知。有人问通知什么时候来。他说来了就通知。这一句也是手册里的。',
+    },
+    {
+      id: 'chronicle-x4-p16',
+      type: 'paragraph',
+      text: '有一通打了三次。第三次他还是那三句。对方最后说了一句什么，他没有听清，也没有问。',
+    },
+    {
+      id: 'chronicle-x4-p17',
+      type: 'paragraph',
+      text: '也有人问是不是他这边弄错了。他说不知道。“不知道”这三个字他那一晚说了很多次，说到后来比那三句还熟。',
+    },
+    { id: 'chronicle-x4-h4', type: 'heading', text: '四' },
+    {
+      id: 'chronicle-x4-p18',
+      type: 'paragraph',
+      text: '其中一通是冷库打来的。',
+    },
+    {
+      id: 'chronicle-x4-p19',
+      type: 'paragraph',
+      text: '对方说话不多，声音不高，问了一句什么时候能来电。他把那三句说了一遍。对方说好，挂了。',
+    },
+    {
+      id: 'chronicle-x4-p20',
+      type: 'paragraph',
+      text: '整通话不到二十秒。他在单子上记了一行：单位、事由、已答复。事由那一栏他写的是“停电询问”。',
+    },
+    {
+      id: 'chronicle-x4-p21',
+      type: 'paragraph',
+      text: '他没有问对方姓什么。单子上不需要姓名，需要的是单位。冷库那个单位他认得，那些年里来过很多次电话。他不记得那一次和别的次有什么不一样。',
+    },
+    { id: 'chronicle-x4-h5', type: 'heading', text: '五' },
+    {
+      id: 'chronicle-x4-p22',
+      type: 'paragraph',
+      text: '二十三时前后，电回来了。屏上那一片一块一块灭下去。',
+    },
+    {
+      id: 'chronicle-x4-p23',
+      type: 'paragraph',
+      text: '复电以后他要做的还是回话：打过来的，告诉他来了；没打过来的，不用打过去。手册上写的是“逐单位确认”，实际上确认的是单子，不是人。',
+    },
+    {
+      id: 'chronicle-x4-p24',
+      type: 'paragraph',
+      text: '确认是从单子最上面那一行开始的，一行一行往下。他划得很快：那一晚的单子上，大部分行的答复都是同一句。',
+    },
+    {
+      id: 'chronicle-x4-p25',
+      type: 'paragraph',
+      text: '他把那晚的单子从头到尾划了一遍。划到“停电询问”那一行，他划过去了。',
+    },
+    { id: 'chronicle-x4-h6', type: 'heading', text: '六' },
+    {
+      id: 'chronicle-x4-p26',
+      type: 'paragraph',
+      text: '第二天上午，有人说冷库那边少了一个人。',
+    },
+    {
+      id: 'chronicle-x4-p27',
+      type: 'paragraph',
+      text: '他先问了一句是不是昨晚值班的。问完他自己就想起来：昨晚冷库来过一通电话。',
+    },
+    {
+      id: 'chronicle-x4-p28',
+      type: 'paragraph',
+      text: '他去翻单子。单子还在桌上，没有归。他找到那一行：单位、事由、已答复。那一行没有别的字。',
+    },
+    {
+      id: 'chronicle-x4-p29',
+      type: 'paragraph',
+      text: '他想过一次：那通电话要是多打一分钟，会不会不一样。想了一遍他就搁下了——多出来的那一分钟里，他能说的还是那三句。',
+    },
+    {
+      id: 'chronicle-x4-p30',
+      type: 'paragraph',
+      text: '他看了一会儿，把单子归了。',
+    },
+    {
+      id: 'chronicle-x4-p31',
+      type: 'paragraph',
+      text: '后来几天还有电话进来，问冷库那边的事。这一类他另有答复：以有关部门的发布为准。这一句不在那三句里，是另一本手册里的。',
+    },
+    { id: 'chronicle-x4-h7', type: 'heading', text: '七' },
+    {
+      id: 'chronicle-x4-p32',
+      type: 'paragraph',
+      text: '后来广播里说，那晚停电四十来分钟。那个数他听着耳熟。他想了两天，想起来是他自己写在单子上的。',
+    },
+    {
+      id: 'chronicle-x4-p33',
+      type: 'paragraph',
+      text: '写在单子上的时候它是一个时间：二十二点十四分到二十三时前后。到了广播里，它变成了一个数。他没有去更正——也没有什么好更正的，四十来分钟是对的。',
+    },
+    { id: 'chronicle-x4-h8', type: 'heading', text: '八' },
+    {
+      id: 'chronicle-x4-p34',
+      type: 'paragraph',
+      text: '后来屋子搬过一次家，从二楼搬到一楼；屏换了三轮；桌子还是那种桌子。',
+    },
+    {
+      id: 'chronicle-x4-p35',
+      type: 'paragraph',
+      text: '他退休那年，系统已经能自动派单了。来电进来，屏幕上跳出一段话，末尾一句是“请等待进一步通知”。值班的人点一下发送，那句话就以短信出去了。',
+    },
+    {
+      id: 'chronicle-x4-p36',
+      type: 'paragraph',
+      text: '手册又换过一次封面。那三句还在，只是从嘴里挪到了屏幕上。',
+    },
+    {
+      id: 'chronicle-x4-p37',
+      type: 'paragraph',
+      text: '现在值班的人年轻，接得快，念得也快。他听过一回，一个字没有错，中间也没有停顿。',
+    },
+    {
+      id: 'chronicle-x4-p38',
+      type: 'paragraph',
+      text: '他那几个月还是会把电话接起来听一听。听完他说：等通知。',
+    },
+    {
+      id: 'chronicle-x4-p39',
+      type: 'paragraph',
+      text: '系统那边已经把短信发出去了。',
+    },
+  ],
+};
+
+export const CHRONICLES: Story[] = [chronicle01, chronicle02, chronicle03, chronicle04, chronicle05, chronicle06, chronicle07, chronicle08, chronicle09, chronicle10, chronicleX1, chronicleX2, chronicleX3, chronicleX4];
 
 export const CHRONICLE_IDS = CHRONICLES.map((s) => s.id);
 

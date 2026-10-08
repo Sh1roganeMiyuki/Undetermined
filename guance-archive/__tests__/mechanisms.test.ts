@@ -1969,7 +1969,13 @@ test('69. 终局轨门：afterChoice 只在登记终选后开；游玩中载体�
   for (const h of HOT_SNAPSHOTS) if (h.reveal?.afterChoice) users.push(`hot:${h.id}`);
   for (const s of STORIES) if (s.reveal?.afterChoice) users.push(`story:${s.id}`);
   for (const c of CHRONICLES) if (c.reveal?.afterChoice) users.push(`chronicle:${c.id}`);
-  expect(users).toEqual(['entry-revision:manuscript-ledger', 'chronicle:chronicle-x1']);
+  expect(users).toEqual([
+    'entry-revision:manuscript-ledger',
+    'chronicle:chronicle-x1',
+    'chronicle:chronicle-x2',
+    'chronicle:chronicle-x3',
+    'chronicle:chronicle-x4',
+  ]);
 });
 
 test('70. 终局第十一行：房腔与登记簿一致，日期早于入档整理', () => {
