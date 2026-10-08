@@ -35,6 +35,7 @@ export const noteZhang: WikiEntry = {
       id: 'note-zhang-original',
       type: 'image',
       alt: '手记原件（第 1 页）',
+      src: '/img/note-zhang-original.jpg',
       prompt:
         '手写的中文维修工手记，横线稿纸，黑色签字笔，字迹不工整但有力量，纸张略有折痕和指印，桌面日光灯偏白，手机俯拍翻拍质感，平实无修饰 ／ handwritten chinese note, lined paper, ballpoint pen, photograph of paper on desk, fluorescent light, imperfect handwriting, documentary',
     },

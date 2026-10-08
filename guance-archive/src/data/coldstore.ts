@@ -47,6 +47,31 @@ export const coldstore: WikiEntry = {
   history: [
     { at: '2024-09-20T14:30:00+08:00', by: '内容审核组', note: '录入设施基础信息' },
   ],
+  /* 扩天批次第 7 天件（口径说明见 b1.ts）。这是“未领”那个缺口的行政侧：
+   * 连载八 p53-p55 给的是清查单上“未领”两字、箱子拉走了、拉去哪里没有人记；
+   * 本修订给的是移交清册里没有它们、处置单也没随卷。两件互不引用，
+   * 缺口不填、不解释（§5.5）。
+   * 硬纪律：不点名何某／何川，不碰 EX-07（未定稿）与 EX-08（断电后温升），
+   * 不出现 2.4℃（同构签名仅两处，mechanisms 66），不断言处置时间
+   * （“移交前”一类说法会与连载八的清库时序打架，故只写“未随卷”）。 */
+  revisions: [
+    {
+      title: '移交清册说明（2025 年 3 月补记）',
+      reveal: { afterDays: 6, afterSeen: ['coldstore-now'] },
+      blocks: [
+        {
+          id: 'coldstore-rev1-1',
+          type: 'paragraph',
+          text: '本址移交仓储企业时，清册所列为库房、设备及场地附着物。',
+        },
+        {
+          id: 'coldstore-rev1-2',
+          type: 'paragraph',
+          text: '清册不含 1987—2019 年值班室留存件。该批留存件的处置单未随卷。',
+        },
+      ],
+    },
+  ],
 };
 
 export const coldstoreDuty: WikiEntry = {
@@ -189,6 +214,7 @@ export const coldstorePhotos: WikiEntry = {
       id: 'coldstore-photos-1',
       type: 'image',
       alt: '值班室桌面，摊开的值班记录本',
+      src: '/img/coldstore-photos-1.jpg',
       prompt:
         '数码相机照片：老旧冷库值班室的木质桌面，一本摊开的横线记录本，最后一行的字迹停在半途，旁边搁着一支圆珠笔，顶灯冷白，闪光灯直打，构图平实，2019 年纪实感 ／ digital camera photo, old cold-storage duty room desk, open lined notebook with writing stopped mid-line, ballpoint pen set aside, cold white overhead light, direct flash, plain documentary style',
     },
@@ -201,6 +227,7 @@ export const coldstorePhotos: WikiEntry = {
       id: 'coldstore-photos-2',
       type: 'image',
       alt: '倒在桌边的军绿色帆布折叠椅',
+      src: '/img/coldstore-photos-2.jpg',
       prompt:
         '数码相机照片：值班室地上一把倒下的折叠椅，军绿色帆布面，铁架，桌面边缘入画，地面水泥质感，闪光灯直打，按原状拍摄，冷静的现场记录感 ／ digital camera photo, an overturned folding chair on a duty room floor, army-green canvas seat, metal frame, desk edge in frame, concrete floor, direct flash, untouched scene, calm forensic documentary style',
     },
@@ -213,6 +240,7 @@ export const coldstorePhotos: WikiEntry = {
       id: 'coldstore-photos-3',
       type: 'image',
       alt: '墙上机械温度计（指针位置见图像）',
+      src: '/img/coldstore-photos-3.jpg',
       prompt:
         '数码相机照片：冷库值班室墙面上挂式机械温度计，圆形刻度盘，黑色指针，玻璃面反光，旁边是一小块斑驳的墙皮，闪光灯直打，近距离平视拍摄 ／ digital camera photo, wall-mounted mechanical thermometer in a cold-storage duty room, round dial with black needle, glass reflection, worn wall behind, direct flash, close-up documentary style',
     },

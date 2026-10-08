@@ -1,4 +1,6 @@
 import { expect, test } from 'vitest';
+import { existsSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import type { RevealRule, WikiEntry } from '@/types';
 import { CASE1207_SCENE } from '@/data/case1207';
 import { APPLICATION_FORM } from '@/data/act4';
@@ -2000,4 +2002,79 @@ test('70. 终局第十一行：房腔与登记簿一致，日期早于入档整�
   expect(rowDate < filedAt).toBe(true);
   // 十行旧行的房腔样本，用于肉眼对照（不断言，只保证样本还在）
   expect(ledger.blocks.some((b) => (b.text ?? '').includes('编号 WG-09'))).toBe(true);
+});
+
+test('71. 连载十一《窗边》：12·14 的窗边视角，不重写指挥部拍点', () => {
+  const c = CHRONICLES.find((s) => s.id === 'chronicle-11')!;
+  expect(c).toBeDefined();
+  expect(c.title).toContain('窗边');
+  // 门挂在告知书五条或行动方案部署段（多入射角，任一即开）
+  expect(c.reveal?.afterSeen).toEqual(['record-1214-notice-items', 'record-1214-plan-deploy']);
+
+  const all = c.blocks.map((b) => b.text ?? '').join('\n');
+  // 三个收束拍：两本不得并表（复盘决议 1）、连自留回执也被收走、“没有时间怕”
+  expect(all).toContain('不用对');
+  expect(all).toContain('附件都收');
+  expect(all).toContain('没有时间怕');
+
+  // 纪律一：行动的时刻表一个也不给（21:00／22:07／4'07"／22:20 全属指挥部侧）
+  for (const t of ['21:00', '22:07', '22:20', "4'07", '4 分 07']) expect(all).not.toContain(t);
+  // 纪律二：清点口径与“未复现人员”是档案留给另组清核的缺口，小说不代填
+  for (const t of ['未复现', '实地复现', '哨位', '清核']) expect(all).not.toContain(t);
+  // 纪律三：全篇零“白”字——不与白影／白场／白溢发生非设计关联
+  expect(all).not.toContain('白');
+  // 纪律四：对照物独占值（golden 6）不得出现在小说里
+  expect(all).not.toMatch(/(?<![\d:.])15(?![\d:.])/);
+  expect(all).not.toContain('4 块');
+  // 纪律五：机制词零出现
+  for (const t of ['未定稿', '剪枝', '主干', '密度', '借位者']) expect(all).not.toContain(t);
+});
+
+test('72. 图位花名册：13 处；仅一处刻意留空永不填图；填图者文件必须存在', () => {
+  // 08 §一 清点：站内 13 处图位，由三种结构承载——
+  // ContentBlock(type:'image')、NetRecord.photo、ReconstructFinale.photo。
+  const slots: { id: string; alt: string; src?: string }[] = [];
+  const scan = (blocks: { id: string; type: string; alt?: string; src?: string }[]) => {
+    for (const b of blocks)
+      if (b.type === 'image') slots.push({ id: b.id, alt: b.alt ?? '', src: b.src });
+  };
+  for (const e of ENTRIES) {
+    scan(e.blocks);
+    for (const rev of e.revisions ?? []) scan(rev.blocks);
+  }
+  for (const s of STORIES) scan(s.blocks);
+  for (const c of CHRONICLES) scan(c.blocks);
+  for (const r of NET_RECORDS)
+    if (r.photo) slots.push({ id: `${r.id}#photo`, alt: r.photo.alt, src: r.photo.src });
+  for (const s of Object.values(SCENES))
+    slots.push({ id: `${s.id}#finale`, alt: s.finale.photo.alt, src: s.finale.photo.src });
+
+  // 花名册：13 处，一处不多一处不少。新增图位必须同步改这里与 `08` §一。
+  // （别卷四册不得有图位：WG-11 已登记“四册”，给小说轨插图会让它变假话）
+  expect(slots).toHaveLength(13);
+  // alt 不得为空：填图也不得改 alt（alt 是已归档正文，图注与多处断言依赖它）
+  for (const s of slots) expect(s.alt.length).toBeGreaterThan(0);
+
+  // 刻意留空白名单（08 §三“填 12 留 1”·唯一性纪律）——永不填 src，防止后来者当 bug 补上：
+  // ・coldstore-photos-4：冷库四张里唯一不承载独占线索的纯环境照；正文自己写着
+  //   “共 36 张，选存 4 张”，图四只有 alt 在档案语境里天经地义（04 §4 局部缺失）。
+  //   缺图的重量来自唯一性：12 有 1 无，这 1 处空位才读得出来（同 retainsId 纪律）。
+  // ・qx2410-d-photo-alt 原在名单内；2026-10-08 候选图做到了“整牌不可读＋单字三横
+  //   不齐”，证据推翻先验，改填图（作者授权裁决，见 08 §三理由四）。
+  const DELIBERATELY_BLANK = ['coldstore-photos-4'];
+  for (const id of DELIBERATELY_BLANK) {
+    const slot = slots.find((s) => s.id === id);
+    expect(slot).toBeDefined(); // 图位不得删除，只能留空
+    expect(slot?.src).toBeUndefined();
+  }
+
+  // 凡声明 src 者，public/ 下必须存在且非空（现在零声明，本段空转；图到手后即生效）
+  const publicDir = join(process.cwd(), 'public');
+  for (const s of slots) {
+    if (!s.src) continue;
+    expect(s.src.startsWith('/img/')).toBe(true); // 命名规则：/img/<块id>.jpg
+    const p = join(publicDir, s.src.replace(/^\//, ''));
+    expect(existsSync(p)).toBe(true);
+    expect(statSync(p).size).toBeGreaterThan(0);
+  }
 });

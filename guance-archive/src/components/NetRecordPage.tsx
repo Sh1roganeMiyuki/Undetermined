@@ -42,8 +42,28 @@ export function NetRecordPage({ record }: { record: NetRecord }) {
           </p>
         ) : null}
         {record.photo ? (
-          <figure className="mt-4 flex h-40 items-center justify-center border border-line bg-soft px-4 text-center text-[13px] text-gray-500">
-            {record.photo.alt}
+          // 填图后渲染真图（限高保比例）；无图时 h-40 alt 框。两种形态加载前高度都确定
+          // （`08` §七 2 红线②：零尺寸观察目标会让阅读结算记不到本块）。
+          // data-bid 仍在外层 div 上，不得下移到 figure。
+          <figure
+            className={
+              record.photo.src
+                ? 'mt-4 flex min-h-40 items-center justify-center overflow-hidden border border-line bg-soft'
+                : 'mt-4 flex h-40 items-center justify-center border border-line bg-soft'
+            }
+          >
+            {record.photo.src ? (
+              // eslint-disable-next-line @next/next/no-img-element -- images.unoptimized 已开，next/image 在此无优化收益；限高保比例避免裁切
+              <img
+                src={record.photo.src}
+                alt={record.photo.alt}
+                className="block max-h-[480px] w-auto max-w-full"
+              />
+            ) : (
+              <span className="flex h-40 items-center justify-center px-4 text-center text-[13px] text-gray-500">
+                {record.photo.alt}
+              </span>
+            )}
           </figure>
         ) : null}
         {record.lines && record.lines.length > 0 ? (

@@ -122,6 +122,7 @@ export const daylightPatrolDec: WikiEntry = {
       id: 'record-daylight-patrol-dec-drawing',
       type: 'image',
       alt: '巡楼记录簿内夹页上的铅笔小图（照摹）',
+      src: '/img/record-daylight-patrol-dec-drawing.jpg',
       prompt:
         '铅笔手绘草图：走廊俯视简图，四个方形门标记，两个小圆圈代灯，一段矩形地毯，地毯上画着一排间距均匀的小圆点；浅色纸张，笔迹轻而干净，无文字标注 ／ pencil sketch on light paper, corridor plan, four door marks, two circles as lights, a rectangular rug with an evenly spaced row of tiny dots, clean faint strokes, no text or labels',
     },
@@ -476,6 +477,7 @@ export const chengluNote: WikiEntry = {
       id: 'note-chenglu-photo',
       type: 'image',
       alt: '床头柜上的毛巾人偶（程露拍摄）',
+      src: '/img/note-chenglu-photo.jpg',
       prompt:
         '手机照片：酒店式房间的床头柜，一个用白色毛巾和衣架、两本书垫撑成的人形摆件，坐姿，手搭在膝盖上，形态自然到令人不安，房间光线平静灰白，日常纪实质感 ／ phone photo, hotel nightstand, a human-shaped figure made of folded towels, hangers and two books, sitting posture, unsettlingly lifelike, calm gray light, documentary',
     },
@@ -656,6 +658,7 @@ export const DAYLIGHT_SCENE: ReconstructSceneData = {
     ],
     photo: {
       alt: '连廊四版本叠放示意图（比对生成）',
+      src: '/img/daylight-reconstruct.jpg',
       prompt:
         '档案示意图风格：一条长走廊被四个半透明线框视图叠放，行人轮廓以极简线条表示，方向一致，无面部、无装饰，冷灰色调，工程制图感 ／ minimal archival diagram, one corridor shown as four overlapping wireframe views, simple walking outlines, engineering line art, cold gray monochrome, no decoration',
       caption: '叠放结果：四个版本指向同一段连廊、同一个夜晚，行人方向一致。',

@@ -139,6 +139,29 @@ const ledgerRemarks: WikiEntry = {
     },
   ],
   history: [{ at: '2025-01-28T15:00:00+08:00', by: '记录室', note: '摘录收录' }],
+  /* 扩天批次第 5 天件（同 b1.ts 的口径说明）。内容上它是本件的封口：
+   * 备注栏是登记簿里唯一能写“报一下”的地方，新表式把它取消了——
+   * 纯行政动作，无恶意、无解释、无人决定（一切合规，而事情已经发生了）。
+   * 与册三《全份》的归卷室、调阅登记的“原簿不外借”同一代谢方向。
+   * 不涉 meta：本修订不指向读者（封顶四处未动）。 */
+  revisions: [
+    {
+      title: '表式变更说明（2025 年 2 月）',
+      reveal: { afterDays: 5, afterSeen: ['record-ledger-remarks-tail'] },
+      blocks: [
+        {
+          id: 'record-ledger-remarks-rev1-1',
+          type: 'paragraph',
+          text: '登记簿自 2025 年 2 月起改用新表式。新表式不设备注栏。',
+        },
+        {
+          id: 'record-ledger-remarks-rev1-2',
+          type: 'paragraph',
+          text: '（本页摘录所据为旧表式各页；旧表式各页已归卷。）',
+        },
+      ],
+    },
+  ],
   related: ['person-xuheng', 'note-xuheng-buyi'],
 };
 

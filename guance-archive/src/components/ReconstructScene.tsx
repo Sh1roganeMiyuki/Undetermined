@@ -185,8 +185,28 @@ export function ReconstructScene({ scene, slug }: { scene: ReconstructSceneData;
               <p key={i}>{line}</p>
             ))}
           </div>
-          <figure className="mt-3 flex h-40 items-center justify-center border border-line bg-soft px-4 text-center text-[13px] text-gray-500">
-            {scene.finale.photo.alt}
+          {/* 填图后渲染真图（限高保比例——本图是上下拼接的比对示意图，裁切就只剩中缝）；
+              无图时 h-40 alt 框；两种形态加载前高度都确定（`08` §七 2 红线②）。
+              本 figure 不携 data-bid：还原台的阅读结算记在矛盾块上，不记在比对图。 */}
+          <figure
+            className={
+              scene.finale.photo.src
+                ? 'mt-3 flex min-h-40 items-center justify-center overflow-hidden border border-line bg-soft'
+                : 'mt-3 flex h-40 items-center justify-center border border-line bg-soft'
+            }
+          >
+            {scene.finale.photo.src ? (
+              // eslint-disable-next-line @next/next/no-img-element -- images.unoptimized 已开，next/image 在此无优化收益；限高保比例避免裁切
+              <img
+                src={scene.finale.photo.src}
+                alt={scene.finale.photo.alt}
+                className="block max-h-[480px] w-auto max-w-full"
+              />
+            ) : (
+              <span className="flex h-40 items-center justify-center px-4 text-center text-[13px] text-gray-500">
+                {scene.finale.photo.alt}
+              </span>
+            )}
           </figure>
           <p className="mt-2 text-[13px] leading-6 text-gray-600">{scene.finale.photo.caption}</p>
         </div>

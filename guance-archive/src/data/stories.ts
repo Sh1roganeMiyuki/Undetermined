@@ -111,6 +111,7 @@ const story01: Story = {
       id: 'story-01-photo',
       type: 'image',
       alt: '行车记录仪截图（12·07 21:28，北口）',
+      src: '/img/story-01-photo.jpg',
       prompt:
         '夜间行车记录仪截图视角：城市地下通道入口前的台阶，台阶上方照明昏暗，画面中有三个模糊的人影一前一后走上台阶，画质低、有噪点，带时间水印，普通行车记录仪夜视效果 ／ dashcam screenshot at night, underpass entrance steps, three blurred pedestrians walking up, low quality, noise, timestamp overlay',
     },

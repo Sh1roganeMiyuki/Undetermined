@@ -54,6 +54,31 @@ const cabinetLog: WikiEntry = {
     },
   ],
   history: [{ at: '2025-01-20T10:30:00+08:00', by: '图书馆分馆', note: '摘录抄录' }],
+  /* 扩天批次（2026-10-08，HANDOVER §7）：ROUND_MAX=3 之外，跨天门仍然活着——
+   * `days` 是全局自然日数（上限 DAYS_CAP），`dn` 才是单条目回访序（封顶 3）。
+   * 所以第 5 天以后的回访用 afterDays 追加修订层，零新机制。
+   * 纪律：只释放“档案自己的代谢”（归卷、封存、表式变更），不新增世界事件；
+   * 措辞避开 c2412-outro 的“不再按卷汇编”（07 §7.1 注册永不解释项）。
+   * 双条件 AND：afterDays 4 ＋ 真读过本页尾块——没读过的人不会收到；
+   * 它属红点允许的第二类（未读修订），不是漂移（漂移永不点亮红点）。 */
+  revisions: [
+    {
+      title: '归卷说明（2025 年 3 月）',
+      reveal: { afterDays: 4, afterSeen: ['b1-cabinet-tail'] },
+      blocks: [
+        {
+          id: 'record-b1-cabinet-rev1-1',
+          type: 'paragraph',
+          text: '本页摘录所据原簿已于本月归卷。归卷后原簿不再外借。',
+        },
+        {
+          id: 'record-b1-cabinet-rev1-2',
+          type: 'paragraph',
+          text: '柜内往来自 2025 年 1 月起另立登记，不随本页续摘。',
+        },
+      ],
+    },
+  ],
   related: ['b1-reading-room'],
 };
 

@@ -38,6 +38,7 @@ export const NET_RECORDS: NetRecord[] = [
     text: '一条 12 秒视频：标题“北环路，晚上十一点”。画面里通道灯光正常，末尾两秒，画面中央浮出一团模糊的白。发布者留言置顶：“想看原版，评论区扣 1。”',
     photo: {
       alt: '北口台阶夜景（网络流传，11 月 2 日）',
+      src: '/img/net-1102.jpg',
       prompt:
         '夜间手机拍摄：地下通道入口台阶，台阶上站着三四个年轻人，有的举着手机在拍，台阶上方照明昏暗只有一盏灯不亮，地面有积水倒影，画质粗糙有噪点，社交媒体风格 ／ night phone photo, underpass entrance steps, a few young people taking photos with phones, dim lighting, wet ground reflection, noisy low quality',
     },

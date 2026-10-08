@@ -4556,7 +4556,351 @@ const chronicleX4: Story = {
   ],
 };
 
-export const CHRONICLES: Story[] = [chronicle01, chronicle02, chronicle03, chronicle04, chronicle05, chronicle06, chronicle07, chronicle08, chronicle09, chronicle10, chronicleX1, chronicleX2, chronicleX3, chronicleX4];
+/* ------------------------------------------------------------------ *
+ * 连载十一 · 窗边（12·14 专项观测行动 · 近区圈的一户人家）。
+ *
+ * 为何是这一间：12·14 是时间线的终点事件、也是所有规矩的诞生现场，
+ * 却是四个叙事维度里唯一零小说覆盖的一格（公众面×官方面）。
+ * overload.ts 给的全是指挥部视角（方案／值班记录／复盘纪要／口径）；
+ * 本篇给的是那 200 台观-3 型里的一台，和签收它的那个人。
+ *
+ * 互证与对时（逐条可核）：
+ * - 12.13 配发、签收回执（record-1214-plan-deploy “定向发放，签收回执”）；
+ * - 告知书本体不逐条复现，只转述（已给拍点不重写）；第五条“交回全部附件
+ *   包括本告知书”→ 他交了出去；
+ * - 广播在“十点前后”，对 record-1214-plan-sync“预计 22:00 前后大功率广播一次”；
+ *   广播内容不给（口径属禁区），只写“念得很平，念了一段，又念了一段”；
+ * - 21:00 启动／22:07 超限／白场 4'07"／22:20 清点 —— **一个时刻也不给**：
+ *   他不知道行动何时开始（告知书只写“行动期间”），也不知道何时结束；
+ * - 回收用**两个本子**（一本厚一本薄）对 record-1214-review-6 决议 1
+ *   “回收清单与发放清单分别登记，不得并表”；“能对上吗——不用对”为本篇新增的一拍。
+ *
+ * 纪律：全篇零“白”字（不与白影／白场／白溢 发生非设计关联）；零阿拉伯数字 15
+ * （golden 6 对照物独占值）；零第二人称；不解释仪器是什么、灯亮没亮、
+ * 广播说了什么、未复现人员是谁（清点口径里的 12／11／200／5 一个不用）。
+ * 限知：他唯一的推断（“那一整条街大概有很多人家都在挺桌子”）不超出他的位置。
+ * 纪律②：他对“请勿触碰”的解释（“看清楚算不算触碰的前一步”）使他没去确认，
+ * 于是永远不知道——规矩就是这样长在人身上的，站内不评一句。
+ *
+ * 入档：本篇发布日 2025-04-14，晚于 WG-10（03.31）与 WG-11（别卷四册，04.07），
+ * 故其入档行在《文稿入档登记》自称的“登记簿其余页次从略”里——**不动 ledger 正文**
+ * （mechanisms 49 钉死“未署名”恰 10 处、“（未填）”恰 9 处）。
+ * 投放：读过《观测仪配发告知书》五条或行动方案三圈层部署之后（多入射角，任一即开）。
+ * ------------------------------------------------------------------ */
+const chronicle11: Story = {
+  id: 'chronicle-11',
+  title: '连载十一 · 窗边',
+  speaker: '不详（原稿无落款）',
+  at: '2025-04-14T09:00:00+08:00',
+  reveal: { afterSeen: ['record-1214-notice-items', 'record-1214-plan-deploy'] },
+  blocks: [
+    { id: 'chronicle-11-h1', type: 'heading', text: '一' },
+    {
+      id: 'chronicle-11-p1',
+      type: 'paragraph',
+      text: '老崔家在这栋楼的二层，两室一厅，住了二十多年。楼道里的灯是声控的，一层一盏。',
+    },
+    {
+      id: 'chronicle-11-p2',
+      type: 'paragraph',
+      text: '十二月十三号傍晚，两个人来敲老崔家的门。一个抱着纸箱，一个拿着单子。他们说是联合观测行动指挥部的，按名单配发一台仪器，需要签收。',
+    },
+    {
+      id: 'chronicle-11-p3',
+      type: 'paragraph',
+      text: '老崔问是什么仪器。抱箱子的那个说，手持的，观-3 型。老崔问做什么用。拿单子的那个说，行动期间放在家里就行，不用操作。',
+    },
+    {
+      id: 'chronicle-11-p4',
+      type: 'paragraph',
+      text: '老崔又问了一句，按什么名单。拿单子的那个说，沿街的门牌。老崔想了想，他家这个门牌是前几年换的，牌子还挺新。',
+    },
+    {
+      id: 'chronicle-11-p5',
+      type: 'paragraph',
+      text: '他老伴在门口问他要不要签。他说人家都拿来了。他去抽屉里找笔，找出一支，写了两下不出水，又换了一支。',
+    },
+    {
+      id: 'chronicle-11-p6',
+      type: 'paragraph',
+      text: '单子上印着他家的门牌号，下面有一行编号。他在签收栏签了名。回执是复写的，他留了下面那一联。',
+    },
+    {
+      id: 'chronicle-11-p7',
+      type: 'paragraph',
+      text: '箱子不大，一只手能提。他们把箱子交给他，说了句放稳妥点，就下楼了。老崔站在门口听他们下去，一楼的门响了一下。',
+    },
+    { id: 'chronicle-11-h2', type: 'heading', text: '二' },
+    {
+      id: 'chronicle-11-p8',
+      type: 'paragraph',
+      text: '箱子里有一张告知书。老崔在灯下把它看了一遍，又看了一遍。',
+    },
+    {
+      id: 'chronicle-11-p9',
+      type: 'paragraph',
+      text: '告知书是打印的，字不大，一行一行排得很整齐。末尾盖着章，章上的字他凑近看了两遍才认出来。',
+    },
+    {
+      id: 'chronicle-11-p10',
+      type: 'paragraph',
+      text: '五条。说的是怎么放、不要做什么、万一怎样、以及最后怎么交回去。他把纸折好，压在箱子底下。',
+    },
+    {
+      id: 'chronicle-11-p11',
+      type: 'paragraph',
+      text: '他老伴从厨房出来，问是谁。他说发东西的。她问发什么。他没有说。',
+    },
+    {
+      id: 'chronicle-11-p12',
+      type: 'paragraph',
+      text: '不是不想说。是那五条里有一条写着不要跟人谈论这次配发。他不知道这个“人”里包不包括自己家里人。他想了想，觉得包括。',
+    },
+    {
+      id: 'chronicle-11-p13',
+      type: 'paragraph',
+      text: '晚上他老伴问他，要不要给儿子打个电话说一声。儿子在外地，一年回来一回。老崔说不用。她问为什么不用。他说，人家忙。',
+    },
+    { id: 'chronicle-11-h3', type: 'heading', text: '三' },
+    {
+      id: 'chronicle-11-p14',
+      type: 'paragraph',
+      text: '那天晚上他去倒水，在楼道里遇见三楼的老邵。老邵手上也拎着一个差不多的箱子。两个人在楼梯口站着，谁也没提。',
+    },
+    {
+      id: 'chronicle-11-p15',
+      type: 'paragraph',
+      text: '老邵平时爱说话，楼里谁家的事他都知道。那天他一句也没多说，只说了一句天气。老崔也说了一句天气。然后各自开门进去了。',
+    },
+    {
+      id: 'chronicle-11-p16',
+      type: 'paragraph',
+      text: '回屋以后他想，那一整条街，那天晚上大概有很多人家也在灯下看同一张纸。',
+    },
+    { id: 'chronicle-11-h4', type: 'heading', text: '四' },
+    {
+      id: 'chronicle-11-p17',
+      type: 'paragraph',
+      text: '他家临通道那一侧的窗，是客厅的窗。窗下原来放着一张矮桌，桌上是他老伴的针线笸箩和一盆吊兰。',
+    },
+    {
+      id: 'chronicle-11-p18',
+      type: 'paragraph',
+      text: '第二天上午他把矮桌挪到卧室去。桌子是实木的，沉，他一个人挪，挪一段歇一下。他老伴要来搭手，他说不用，小心闪着腰。',
+    },
+    {
+      id: 'chronicle-11-p19',
+      type: 'paragraph',
+      text: '他想过找三楼的老邵来抬一下。想到了，又没去。告知书里那条写着不要跟人谈论，他不确定借个手算不算谈论的开头。',
+    },
+    {
+      id: 'chronicle-11-p20',
+      type: 'paragraph',
+      text: '吊兰他搬到了另一扇窗。他量过窗台：箱子放上去，两头各余出两指。他把箱子往里推了推，推到跟窗框齐平，再按告知书说的方向摆——他不确定哪一面算朝着通道，就把有字的一面朝外。',
+    },
+    {
+      id: 'chronicle-11-p21',
+      type: 'paragraph',
+      text: '摆完他退后两步看了一眼。箱子在窗台上，方的，比一盆花占的地方小。',
+    },
+    { id: 'chronicle-11-h5', type: 'heading', text: '五' },
+    {
+      id: 'chronicle-11-p22',
+      type: 'paragraph',
+      text: '十四号是星期六。挪完桌子已经快中午了。他老伴说他一上午都在折腾那张桌子。',
+    },
+    {
+      id: 'chronicle-11-p23',
+      type: 'paragraph',
+      text: '下午他去买菜。卖菜的那个跟他熟，一边称一边说，这两天街上生人多。老崔嗯了一声，没有接。',
+    },
+    {
+      id: 'chronicle-11-p24',
+      type: 'paragraph',
+      text: '他买了他老伴爱吃的两样，回家了。',
+    },
+    {
+      id: 'chronicle-11-p25',
+      type: 'paragraph',
+      text: '他睡了个午觉，没睡着。他老伴看电视，声音开得比平时小。',
+    },
+    {
+      id: 'chronicle-11-p26',
+      type: 'paragraph',
+      text: '傍晚他下楼扔了一趟垃圾。楼下停着几辆生车，以前没有那么多。他扔完就上来了。',
+    },
+    {
+      id: 'chronicle-11-p27',
+      type: 'paragraph',
+      text: '他坐在客厅里，箱子在窗台上。',
+    },
+    {
+      id: 'chronicle-11-p28',
+      type: 'paragraph',
+      text: '他不知道行动什么时候开始。告知书上没有写时间，只写了“行动期间”。所以他从下午起就一直坐在“行动期间”里。',
+    },
+    {
+      id: 'chronicle-11-p29',
+      type: 'paragraph',
+      text: '他把那张回执从抽屉里拿出来看了一遍。上面有编号，有日期，有他的签名。他看完放回去。',
+    },
+    {
+      id: 'chronicle-11-p30',
+      type: 'paragraph',
+      text: '天黑以后他开了灯。他想过把灯关掉，又觉得关了也没有用——告知书里没有说灯的事。他就把灯开着。',
+    },
+    {
+      id: 'chronicle-11-p31',
+      type: 'paragraph',
+      text: '九点多，外面开始有动静。不是吵，是一种他说不出来的齐：楼下的车不响了，人声也没有了，可又好像有什么东西在动。他没有去看窗。',
+    },
+    {
+      id: 'chronicle-11-p32',
+      type: 'paragraph',
+      text: '十点前后，广播响了。声音很大，从街面上过来，一层一层撞在楼墙上。他听不清说的是什么，只听见是一个人的声音，念得很平，念了一段，又念了一段。',
+    },
+    { id: 'chronicle-11-h6', type: 'heading', text: '六' },
+    {
+      id: 'chronicle-11-p33',
+      type: 'paragraph',
+      text: '他老伴从卧室出来，站在门口听。两个人都没有说话。广播响了一阵，停了。',
+    },
+    {
+      id: 'chronicle-11-p34',
+      type: 'paragraph',
+      text: '停了以后，屋里很静。他老伴说了一句：是不是完了。他说不知道。',
+    },
+    {
+      id: 'chronicle-11-p35',
+      type: 'paragraph',
+      text: '那一晚他去了客厅三次。',
+    },
+    {
+      id: 'chronicle-11-p36',
+      type: 'paragraph',
+      text: '第一次是十一点，他想去把客厅的灯关掉。走到门口，他看见窗台上那个箱子，就站住了。灯他没有关，回卧室了。',
+    },
+    {
+      id: 'chronicle-11-p37',
+      type: 'paragraph',
+      text: '第二次是十二点过，他想去把窗帘拉上。告知书里没有说窗帘的事。他站在门口想了一会儿，觉得没有依据，就没有拉。',
+    },
+    {
+      id: 'chronicle-11-p38',
+      type: 'paragraph',
+      text: '第三次是天快亮的时候，外面有车过去。他走到门口听了一会儿。车走远了。',
+    },
+    {
+      id: 'chronicle-11-p39',
+      type: 'paragraph',
+      text: '三次他都站在客厅门口，没有走到窗台前面。箱子上有一个小的地方，像是灯。屋里亮着，他站得远，看不清那个地方是亮着还是不亮。',
+    },
+    {
+      id: 'chronicle-11-p40',
+      type: 'paragraph',
+      text: '告知书第四条说的是那盏灯：要是它亮起一种不变的颜色，就不要碰它，离开房间，等工作人员上门处理。',
+    },
+    {
+      id: 'chronicle-11-p41',
+      type: 'paragraph',
+      text: '他想过要不要走过去看清楚。走过去只要三步。可是他想起那一条里还有“请勿触碰”四个字。他不确定“看清楚”算不算触碰的前一步。',
+    },
+    {
+      id: 'chronicle-11-p42',
+      type: 'paragraph',
+      text: '三次都是这样：站在门口，看一会儿，回去。',
+    },
+    {
+      id: 'chronicle-11-p43',
+      type: 'paragraph',
+      text: '（所以那一晚那盏灯究竟有没有亮过，他到今天也说不清。他和老伴后来都没有再提。）',
+    },
+    {
+      id: 'chronicle-11-p44',
+      type: 'paragraph',
+      text: '他老伴那一晚也没有睡。他听见她在卧室里翻身，翻了一夜。第二天她什么也没问。',
+    },
+    { id: 'chronicle-11-h7', type: 'heading', text: '七' },
+    {
+      id: 'chronicle-11-p45',
+      type: 'paragraph',
+      text: '十五号上午十点多，那两个人又来敲门。他们带着两个本子，让他把仪器和附件交出来。',
+    },
+    {
+      id: 'chronicle-11-p46',
+      type: 'paragraph',
+      text: '老崔把箱子从窗台上搬下来。他把告知书从箱子底下抽出来，折过的那道痕还在。他一并交了出去。',
+    },
+    {
+      id: 'chronicle-11-p47',
+      type: 'paragraph',
+      text: '工作人员打开箱子看了一眼，没有开机。仪器外头那层包装没有拆过，封口的地方还是原来那道。他核了附件：仪器一台，说明书一份，箱子一个，告知书一张。',
+    },
+    {
+      id: 'chronicle-11-p48',
+      type: 'paragraph',
+      text: '核对编号的时候，他把老崔留的那一联回执也要了去。老崔问这个也收吗。对方说，附件都收。',
+    },
+    {
+      id: 'chronicle-11-p49',
+      type: 'paragraph',
+      text: '他在一个本子上登了一行，念了一遍编号，问老崔附件齐不齐。老崔说齐。对方在另一个本子上打了个勾。',
+    },
+    {
+      id: 'chronicle-11-p50',
+      type: 'paragraph',
+      text: '老崔看见那是两个本子，一本厚一本薄。他问了一句：这两个能对上吗。对方说，不用对。',
+    },
+    {
+      id: 'chronicle-11-p51',
+      type: 'paragraph',
+      text: '他又问了一句，这仪器昨晚上用着了吗。对方说，这个我们不清楚。',
+    },
+    {
+      id: 'chronicle-11-p52',
+      type: 'paragraph',
+      text: '他们前后待了不到十分钟，抱着箱子走了，走的时候把门带上了。',
+    },
+    {
+      id: 'chronicle-11-p53',
+      type: 'paragraph',
+      text: '窗台上留下一块比周围干净的地方。',
+    },
+    {
+      id: 'chronicle-11-p54',
+      type: 'paragraph',
+      text: '下午他在楼道里听见有人上下楼。他开门看了一眼，是那两个人，抱着一个箱子从四楼下来。他们没有说话。',
+    },
+    { id: 'chronicle-11-h8', type: 'heading', text: '八' },
+    {
+      id: 'chronicle-11-p55',
+      type: 'paragraph',
+      text: '十五号起，通道夜里不通行了，路口多了一块牌子。他老伴说这样好，晚上安静。他说嗯。',
+    },
+    {
+      id: 'chronicle-11-p56',
+      type: 'paragraph',
+      text: '矮桌后来搬回了客厅，吊兰也搬了回来，放在窗台上，正好盖住那块干净的地方。那块地方过了两个礼拜就看不出来了：窗台上落灰，落得跟别处一样。',
+    },
+    {
+      id: 'chronicle-11-p57',
+      type: 'paragraph',
+      text: '他没有跟任何人说过那台仪器的事。他老伴也没有。楼道里再没有人提过那一天。老邵还是爱说话，说的都是别的事。',
+    },
+    {
+      id: 'chronicle-11-p58',
+      type: 'paragraph',
+      text: '有一天晚上他老伴问他，那天晚上怕不怕。他想了想，说不知道。她问怎么不知道。他说，那天晚上没有时间怕。',
+    },
+    {
+      id: 'chronicle-11-p59',
+      type: 'paragraph',
+      text: '他还是坐在原来那个位置，从那儿能看见窗台。浇花的时候他不用把花盆挪开，直接浇。',
+    },
+  ],
+};
+
+export const CHRONICLES: Story[] = [chronicle01, chronicle02, chronicle03, chronicle04, chronicle05, chronicle06, chronicle07, chronicle08, chronicle09, chronicle10, chronicleX1, chronicleX2, chronicleX3, chronicleX4, chronicle11];
 
 export const CHRONICLE_IDS = CHRONICLES.map((s) => s.id);
 

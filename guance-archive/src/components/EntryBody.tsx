@@ -135,12 +135,30 @@ function Block({ block, slug }: { block: ContentBlock; slug: string }) {
 
     case 'image':
       // 图片缺位时只剩替代文本：这是内容层允许的形态，不是错误状态。
+      // 填图后（block.src）渲染真图，但两条红线不动（`08` §七 2）：
+      // ① data-bid 留在 figure 上——阅读结算靠它，动了就丢进度；
+      // ② 高度恒为 h-40（有无图都一样）——图片加载前高度为 0 会让
+      //    IntersectionObserver 记不到这个块，该块永远不算“真正看过”，
+      //    挂在它后面的门就再也开不了（本项目踩过的坑：零尺寸观察目标）。
       return (
         <figure
           data-bid={block.id}
-          className="my-4 flex h-40 items-center justify-center border border-line bg-soft px-4 text-center text-[13px] text-gray-500"
+          className={
+            block.src
+              ? // 有图：保比例限高显示（不裁切——05/12 是上下拼接的示意图，
+                // 裁中缝就只剩一条缝）；min-h-40 保证加载前观察目标高度确定。
+                'my-4 flex min-h-40 items-center justify-center overflow-hidden border border-line bg-soft'
+              : 'my-4 flex h-40 items-center justify-center border border-line bg-soft'
+          }
         >
-          {block.alt ?? ''}
+          {block.src ? (
+            // eslint-disable-next-line @next/next/no-img-element -- images.unoptimized 已开，next/image 在此无优化收益；限高保比例避免裁切示意图
+            <img src={block.src} alt={block.alt ?? ''} className="block max-h-[480px] w-auto max-w-full" />
+          ) : (
+            <span className="flex h-40 items-center justify-center px-4 text-center text-[13px] text-gray-500">
+              {block.alt ?? ''}
+            </span>
+          )}
         </figure>
       );
 

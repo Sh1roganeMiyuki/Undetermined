@@ -50,6 +50,7 @@ const caseQx2410: WikiEntry = {
       id: 'qx2410-d-photo-alt',
       type: 'image',
       alt: '观众拍摄的导向牌照片（10·24 21:40 前后）',
+      src: '/img/qx2410-d-photo-alt.jpg',
       prompt:
         '手机夜拍：地下通道内一块绿色导向指示牌的特写，牌面完好但有轻微对焦模糊，指示牌上一个汉字的笔画间距不均、略显扭曲，画面噪点较高，随手拍质感 ／ night phone photo, directional sign closeup in underground passage, slight focus blur, one chinese character looks slightly distorted, high ISO noise, snapshot',
     },

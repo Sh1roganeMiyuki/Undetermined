@@ -24,7 +24,7 @@ const FILES = [
     src: join(root, 'src', 'data', 'chronicle.ts'),
     label: '连载',
     prefix: 'chronicle-',
-    ids: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'],
+    ids: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
   },
   {
     // 终局轨别卷（afterChoice 门后到达），与连载同居 chronicle.ts。

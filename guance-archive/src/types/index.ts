@@ -82,6 +82,13 @@ export interface ContentBlock {
    * 这与"只有 alt 的图片位"的允许形态天然合流。
    */
   prompt?: string;
+  /**
+   * 图片路径（`/img/<块id>.jpg`，相对 `public/`）。
+   * 未填 src ＝ 只有 alt 的图片位（`04` §6.2 允许形态，不是错误状态）；
+   * **填图不得改 alt**：alt 是已归档正文，且多处断言与图注依赖它。
+   * 两处图位属"刻意留空"，永不填 src（`mechanisms` 72 白名单钉死，见 `08` §三）。
+   */
+  src?: string;
   /** scene 块的场景标识（对应数据里的还原台场景） */
   scene?: string;
   /** ledger 块的行文变体：'notice' 统计通知 / 'receipt' 公文核对 */
@@ -248,8 +255,8 @@ export interface NetRecord {
   text?: string;
   /** 逐条摘录（聊天记录、弹幕、评论等） */
   lines?: string[];
-  /** 图片位（网络流传图的抄录）：与内容层的 image 块同义 */
-  photo?: { alt: string; prompt: string };
+  /** 图片位（网络流传图的抄录）：与内容层的 image 块同义。src 未填＝只有 alt */
+  photo?: { alt: string; prompt: string; src?: string };
   /** 该条已不可见（被删除） */
   deleted?: boolean;
   /** 补充说明，如不可见的时间 */
@@ -315,7 +322,8 @@ export interface ReconstructVerdict {
 export interface ReconstructFinale {
   title: string;
   lines: string[];
-  photo: { alt: string; prompt: string; caption: string };
+  /** src 未填＝只有 alt 的比对示意图位 */
+  photo: { alt: string; prompt: string; caption: string; src?: string };
 }
 
 export interface ReconstructSceneData {

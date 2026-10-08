@@ -73,6 +73,7 @@ export const CASE1207_SCENE: ReconstructSceneData = {
     ],
     photo: {
       alt: '墙面修补痕迹与帧内轮廓叠放（比对生成）',
+      src: '/img/case-1207-reconstruct.jpg',
       prompt:
         '一张合成的比对图：上半部分是地下通道水泥墙面的照片，墙上有方形修补痕迹；下半部分是同一面墙的线框图，上面叠加了两个人形的轮廓基线，轮廓与修补区域重合；工程制图风格，无装饰，灰白色调 ／ technical overlay image, concrete wall patch, human silhouettes wireframe, engineering comparison chart, plain, gray',
       caption: '叠放结果：两处轮廓重合。',
@@ -106,6 +107,7 @@ const case1207: WikiEntry = {
       id: 'case-1207-photo',
       type: 'image',
       alt: '通道东段墙面（12·08 例行检查拍摄）',
+      src: '/img/case-1207-photo.jpg',
       prompt:
         '中国北方城市地下人行通道内部，深夜施工照明灯，水泥墙面局部有方形修补痕迹，略带水渍，广角照片，闪光灯直打，构图平实，像施工记录照 ／ concrete wall patch, underground passage, night, flash photo, maintenance record, documentary style',
     },
