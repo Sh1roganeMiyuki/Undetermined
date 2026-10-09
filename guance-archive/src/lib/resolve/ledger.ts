@@ -1,4 +1,10 @@
 import { blockOwner, blockText, getEntry } from '@/data/entries';
+import { CHRONICLES } from '@/data/chronicle';
+import { GOV_DOCS } from '@/data/gov';
+import { HOT_SNAPSHOTS } from '@/data/hot';
+import { NET_RECORDS } from '@/data/net';
+import { NEWS_ISSUES } from '@/data/news';
+import { STORIES } from '@/data/stories';
 import { duration } from '@/lib/format';
 import { viewerIdOf } from '@/lib/resolve/identity';
 import type { FirstVisitLike } from '@/lib/resolve/identity';
@@ -39,6 +45,63 @@ export interface LedgerData {
   copied: { excerpt: string; count: number } | null;
   /** 打开过的词条标题，按首次到访先后排列 */
   openedTitles: string[];
+}
+
+/**
+ * 台账里"读了什么"的名字。唯一出口——组件不得自己拼。
+ *
+ * 为什么必须有这张表：到访键是**存储身份**，不是名字。词条页记 slug，
+ * 栏目详情页记 `<栏目>:<id>`（news:news-1104／gov:gov-plan-draft／net:net-1102／
+ * hot:hot-1031-6），栏目录入页记裸栏目名，稿件页记 story id，留存类记
+ * `<slug>:<段落 id>` 两段式。只解析词条、其余原样落纸，读者就会在一份
+ * 自称"由本站自动生成、不受理更正申请"的文书里读到 `chronicle-01`——
+ * 那不是异常，那是穿帮：本作最贵的失败模式正是玩家把异常当成故障（`04 §五`）。
+ *
+ * 纪律：**站内每一种到访键都必须在此有解。** 新增载体时补一行，
+ * `mechanisms` 73 的花名册断言看守（判据是"名字里必须有汉字"）。
+ * 兜底仍返回原键而不是空串——台账宁可露出一次穿帮，也不留一行空白。
+ */
+const COLUMN_NAME: Record<string, string> = {
+  news: '城北新闻',
+  gov: '城北政务',
+  net: '网络存档',
+  hot: '城北同城榜',
+  // 稿件栏目的录入页：ArchiveIndex 承载另外四栏，StoryList 承载这两栏。
+  stories: '城北口述',
+  chronicle: '城北纪事',
+};
+
+/** 栏目详情页：由 `<栏目>:<id>` 的 id 段取回它在屏幕上显示的那一行题名。 */
+const DETAIL_NAME: Record<string, (id: string) => string | undefined> = {
+  news: (id) => {
+    const n = NEWS_ISSUES.find((x) => x.id === id);
+    return n ? `${n.label} · ${n.slot}` : undefined;
+  },
+  gov: (id) => GOV_DOCS.find((x) => x.id === id)?.title,
+  net: (id) => NET_RECORDS.find((x) => x.id === id)?.at,
+  hot: (id) =>
+    HOT_SNAPSHOTS.flatMap((s) => s.topics).find((t) => t.id === id)?.topic,
+};
+
+/** 稿件（《城北纪事》连载与《城北口述》辑共用 Story 形状），含终局轨别卷。 */
+const MANUSCRIPTS = [...CHRONICLES, ...STORIES];
+
+export function docName(target: string): string {
+  const cut = target.indexOf(':');
+  const head = cut < 0 ? target : target.slice(0, cut);
+  const tail = cut < 0 ? '' : target.slice(cut + 1);
+
+  // 带栏目前缀的详情页。留存类的两段式（`<词条 slug>:<段落 id>`）走不到这里：
+  // 词条 slug 不在 DETAIL_NAME 里，会落到下面的 getEntry，只写条目名。
+  if (tail) {
+    const named = DETAIL_NAME[head]?.(tail);
+    if (named) return named;
+  }
+  const entry = getEntry(head);
+  if (entry) return entry.title;
+  const ms = MANUSCRIPTS.find((x) => x.id === head);
+  if (ms) return ms.title;
+  return COLUMN_NAME[head] ?? target;
 }
 
 /** 只截开头：台账抄的是原件的开头，不改口、不评注。 */

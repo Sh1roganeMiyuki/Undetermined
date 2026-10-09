@@ -16,7 +16,7 @@ const zhangGong: WikiEntry = {
     {
       id: 'person-zhang-summary',
       type: 'paragraph',
-      text: '张工，城北新区市政养护中心维修班组成员，负责北环路及站前街片区的设施维修。同事均以"张工"称呼。',
+      text: '张工，城北新区市政养护中心维修班组成员，负责北环路及站前街片区的设施维修。同事均以“张工”称呼。',
     },
     { id: 'person-zhang-h-duty', type: 'heading', text: '职责范围' },
     {

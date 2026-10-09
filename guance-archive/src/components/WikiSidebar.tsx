@@ -64,7 +64,7 @@ export function WikiSidebar() {
           {groups.map((g) => (
             <div key={g.c} className="mb-4 last:mb-0">
               <div className="flex items-baseline justify-between px-2">
-                <span className="text-[12px] font-semibold tracking-[0.2em] text-brand/60">
+                <span className="text-[12px] font-semibold tracking-[0.2em] text-brand/80">
                   {CATEGORY_LABEL[g.c]}
                 </span>
                 <span className="text-[11px] text-gray-400 tnum">{g.list.length}</span>

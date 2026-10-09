@@ -101,7 +101,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="border-t border-white/10">
-            <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center gap-x-4 gap-y-1 px-6 py-3 text-[12px] text-white/40">
+            <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center gap-x-4 gap-y-1 px-6 py-3 text-[12px] text-white/55">
               <span>© 2024 城北新区市政养护中心 · 内容审核组</span>
               <span className="ml-auto font-mono tnum">
                 城北ICP备2024-01177号-1 · 政府网站标识 1101080077

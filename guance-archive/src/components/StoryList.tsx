@@ -7,6 +7,7 @@ import { meetsRule } from '@/lib/resolve/reveal';
 import { useRevealState } from '@/lib/resolve/useRevealState';
 import { useTrace } from '@/lib/traceStore';
 import { useHydrated } from '@/lib/useHydrated';
+import { useVisitTimeline } from '@/lib/signals/useVisitTimeline';
 
 /**
  * 连载栏目的通用列表（《城北口述》与《城北纪事》共用）。
@@ -36,6 +37,11 @@ export function StoryList({
   const hydrated = useHydrated();
   const reveal = useRevealState();
   const readRevisions = useTrace((s) => s.readRevisions);
+
+  // 栏目录入页与 ArchiveIndex、HotBoard 同一口径：进栏目也要进台账。
+  // 此前只有这个列表不记，于是同一份自称“自动生成”的文书里，
+  // 看榜单算数、看纪事不算数——而纪事恰恰是本作的主线。
+  useVisitTimeline(basePath.replace(/^\//, ''));
 
   const visible = items.filter((s) => (hydrated ? meetsRule(s.reveal, reveal) : !s.reveal));
 

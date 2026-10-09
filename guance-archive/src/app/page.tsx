@@ -22,7 +22,11 @@ export default function HomePage() {
   const groups = ORDER.map((c) => ({ c, list: listed.filter((e) => e.category === c) })).filter(
     (g) => g.list.length > 0,
   );
-  // 概览数字与"最近更新"同源（第 0 轮口径），避免首页自相矛盾。
+  // 概览格只放**不可比的静态事实**（维护主体、分类数、最近登记日）。
+  // 曾经这里放"在列条目 N"、分类卡也挂"N 条"——而侧栏是实时的：
+  // 回访者会在同一屏里读到横幅 13 与侧栏 16。那个矛盾没有在 04 §八 登记过，
+  // 按 §十 的口径就是"不得自行发明"，而读者只会把它读成故障。
+  // 可数的量因此从首页全部撤下：条目目录只有一个，就是侧栏那个会长大的。
   // 日期只取到日：横幅统计格窄，带时分会换行。
   const latest = updates[0]?.last;
 
@@ -67,8 +71,8 @@ export default function HomePage() {
           </div>
           <dl className="grid grid-cols-[1fr_1fr_1.3fr] divide-x divide-white/10 border-t border-white/10 bg-black/10">
             <div className="px-5 py-3">
-              <dt className="text-[12px] text-white/55">在列条目</dt>
-              <dd className="text-[20px] font-semibold leading-8">{listed.length}</dd>
+              <dt className="text-[12px] text-white/55">维护单位</dt>
+              <dd className="text-[14px] font-medium leading-8">市政养护中心</dd>
             </div>
             <div className="px-5 py-3">
               <dt className="text-[12px] text-white/55">资料分类</dt>
@@ -131,11 +135,10 @@ export default function HomePage() {
                 key={g.c}
                 className="rounded-lg border border-line bg-surface p-4 transition-shadow hover:shadow-[0_2px_10px_rgba(0,0,0,0.5)]"
               >
-                <div className="flex items-baseline justify-between border-b border-line pb-2">
+                <div className="border-b border-line pb-2">
                   <span className="text-[14px] font-semibold text-brand">
                     {CATEGORY_LABEL[g.c]}
                   </span>
-                  <span className="text-[12px] text-gray-400">{g.list.length} 条</span>
                 </div>
                 <ul className="mt-2">
                   {g.list.map((e) => (

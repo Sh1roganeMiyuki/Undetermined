@@ -1,16 +1,19 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { blockText, getEntry } from '@/data/entries';
+import { blockText } from '@/data/entries';
 import { clock, duration } from '@/lib/format';
 import { ghostActions } from '@/lib/resolve/ghosts';
+import { docName } from '@/lib/resolve/ledger';
 import { staleOr } from '@/lib/resolve/snapshots';
 import { tabId } from '@/lib/signals/tabSync';
 import { countPeers, useTrace, viewerId } from '@/lib/traceStore';
 import { useHydrated } from '@/lib/useHydrated';
 
 const KIND_LABEL: Record<string, string> = {
-  visit: '打开条目',
+  // 不写"打开条目"：到访的不只是条目（还有稿件、公文、榜单话题与栏目本身）。
+  // 名字由 docName 给，动词只管动作——否则台账会把栏目也叫成"条目"。
+  visit: '打开',
   history: '查看编辑历史',
   verify: '查看复核记录',
   talk: '查看讨论页',
@@ -25,12 +28,6 @@ const LINE = '你查阅的内容不会因为你的查阅行为而改变。';
 const EMPTY = '本项暂无记录。';
 const LIST_CAP = 80; // store 里最多 300 条，页面只列最新的一段
 const QUOTE_CHARS = 12;
-
-/** 留存类记录的 target 是"条目:段落"两段式；台账只写条目名，段落编号不进文书。 */
-function targetName(target: string): string {
-  const slug = target.split(':')[0];
-  return getEntry(slug)?.title ?? target;
-}
 
 function quote(s: string): string {
   const t = s.trim();
@@ -132,7 +129,7 @@ export default function TracePage() {
                   <li key={`${a.at}-${i}`} className="flex flex-wrap gap-x-4">
                     <span className="shrink-0 text-gray-400">{clock(a.at)}</span>
                     <span>{KIND_LABEL[a.kind] ?? a.kind}</span>
-                    <span className="text-gray-500">{targetName(a.target)}</span>
+                    <span className="text-gray-500">{docName(a.target)}</span>
                   </li>
                 ))}
               </ul>

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { existsSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import type { RevealRule, WikiEntry } from '@/types';
 import { CASE1207_SCENE } from '@/data/case1207';
@@ -19,7 +19,7 @@ import { TALKS } from '@/data/talk';
 import { dupRecordsFor } from '@/lib/resolve/duplicates';
 import { ghostActions } from '@/lib/resolve/ghosts';
 import { visibleHistory } from '@/lib/resolve/history';
-import { buildLedger } from '@/lib/resolve/ledger';
+import { buildLedger, docName } from '@/lib/resolve/ledger';
 import { absentLongEnough } from '@/lib/resolve/absence';
 import { applicationOrder, receiptState, sealText } from '@/lib/resolve/receipt';
 import {
@@ -2077,4 +2077,94 @@ test('72. 图位花名册：13 处；仅一处刻意留空永不填图；填图�
     expect(existsSync(p)).toBe(true);
     expect(statSync(p).size).toBeGreaterThan(0);
   }
+});
+
+test('73. 台账对象名花名册：每一种到访键都解析成汉字名，键名不得落纸', () => {
+  /**
+   * 查阅记录是站内文书（"由本站自动生成、不受理更正申请"），而到访键是存储身份：
+   * chronicle-01／gov:gov-plan-draft／net:net-1102／hot。这些键名一旦印在台账上，
+   * 读者读到的不是异常而是穿帮——正是 `04 §五` 认定的最贵失败模式。
+   *
+   * 判据取"名字里必须有汉字"而不是逐条比对预期值：它对新增载体同样成立，
+   * 且不需要每加一篇稿件就来改断言。忘了在 docName 里登记新载体，这里就红。
+   */
+  const HAS_CJK = /[\u4e00-\u9fa5]/;
+
+  const targets: string[] = [];
+  for (const e of ENTRIES) {
+    targets.push(e.slug); // visit / leave / history
+    for (const b of e.blocks) targets.push(`${e.slug}:${b.id}`); // copy / select 两段式
+    for (const rev of e.revisions ?? [])
+      for (const b of rev.blocks) targets.push(`${e.slug}:${b.id}`);
+  }
+  for (const slug of Object.keys(TALKS)) targets.push(slug); // 讨论页
+  for (const slug of Object.keys(VERIFY_DOCS)) targets.push(slug); // 复核文书
+  for (const c of CHRONICLES) targets.push(c.id); // 稿件页（含终局轨别卷）
+  for (const s of STORIES) targets.push(s.id);
+  for (const d of GOV_DOCS) targets.push(`gov:${d.id}`);
+  for (const n of NEWS_ISSUES) targets.push(`news:${n.id}`);
+  for (const r of NET_RECORDS) targets.push(`net:${r.id}`);
+  for (const s of HOT_SNAPSHOTS) for (const t of s.topics) targets.push(`hot:${t.id}`);
+  // 栏目录入页：ArchiveIndex 承载 gov/net/news，HotBoard 承载 hot，
+  // StoryList 承载 stories/chronicle（四栏两栏，两处列表组件必须同口径）
+  targets.push('gov', 'news', 'net', 'hot', 'stories', 'chronicle');
+
+  // 花名册本身也得有内容，否则上面的循环全空转、断言假绿
+  expect(targets.length).toBeGreaterThan(100);
+  expect(targets.filter((t) => !HAS_CJK.test(docName(t)))).toEqual([]);
+});
+
+test('74. 动作可触发：每个状态写入动作在 src/ 下必须有真实调用点', () => {
+  /**
+   * 62 号证明的是“内容可达”，它不证明“有东西能触发一个动作”。
+   * 2026-10-09 的实例：`resetAll` 的状态转移完全正确、67/68 全绿，
+   * 但它在 `src/` 下零调用点——于是“编号留存一处”这条世界级收据在游玩中不可达，
+   * 而机器门一声不响。这条断言把这类“死内容”变成红色。
+   *
+   * 判据只是“名字后面跟着左括号”，不解析调用方——足以挡住零调用点，
+   * 又不会漏掉 `useTrace.getState().x(...)` 这种链式调用（代价是会误放
+   * `console.log(` 一类同名方法，方向上偏宽，不会造出假红）。
+   */
+  const ACTIONS = [
+    'markSeen',
+    'enterEntry',
+    'log',
+    'recordTab',
+    'pruneTabs',
+    'snapshot',
+    'pickRecord',
+    'markDocRead',
+    'seedHistory',
+    'markHistoryRead',
+    'markConflict',
+    'setVerdict',
+    'sealReceipt',
+    'submitApplication',
+    'setFinalChoice',
+    'signLedger',
+    'setReviewChoice',
+    'markClimbed',
+    'setIntercepted',
+    'resetAll',
+  ];
+
+  // 已登记的不可达例外。往里加一项 = 一次裁决，
+  // 必须同时在 `HANDOVER` §7 里留下待办（当前那一条：清档接线三案未定）。
+  const ALLOWLIST = new Set(['resetAll']);
+
+  const walk = (d: string): string[] =>
+    readdirSync(d, { withFileTypes: true }).flatMap((e) => {
+      const p = join(d, e.name);
+      if (e.isDirectory()) return walk(p);
+      // 定义文件本身要排除，否则 `resetAll() {` 会把定义当成调用点
+      return /\.tsx?$/.test(e.name) && !p.endsWith('traceStore.ts') ? [p] : [];
+    });
+  const sources = walk(join(process.cwd(), 'src'))
+    .map((f) => readFileSync(f, 'utf8'))
+    .join('\n');
+
+  const dead = ACTIONS.filter(
+    (n) => !ALLOWLIST.has(n) && !new RegExp(`\\b${n}\\s*\\(`).test(sources),
+  );
+  expect(dead).toEqual([]);
 });

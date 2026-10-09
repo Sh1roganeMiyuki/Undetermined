@@ -39,7 +39,7 @@ export function SearchBar({
         onChange={(e) => setQ(e.target.value)}
         className={`h-9 w-full rounded-md border px-3 text-[14px] outline-none transition-colors ${
           dark
-            ? 'border-white/15 bg-white/10 text-white placeholder:text-white/45 focus:border-accent/70 focus:bg-white/20'
+            ? 'border-white/15 bg-white/10 text-white placeholder:text-white/55 focus:border-accent/70 focus:bg-white/20'
             : 'border-line bg-surface text-ink placeholder:text-gray-400 focus:border-link'
         }`}
       />
